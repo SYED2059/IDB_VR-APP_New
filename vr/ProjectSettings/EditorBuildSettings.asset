@@ -5,11 +5,8 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/GameScene.unity
-    guid: fa96a19b86f8cb04681acea73792fd5c
   - enabled: 1
-    path: Assets/FuturisticKitVol3/Maps/Armory.unity
+    path: Assets/Scenes/GameScene.unity
     guid: 165afe0be84999c4dba89675e4964dd7
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 7a9d151a9f3bb9c4a95155fa9f6ddf44,
