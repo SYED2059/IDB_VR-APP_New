@@ -30,37 +30,55 @@ public class PlaneCircleFly : MonoBehaviour
     public GameObject leftInteractions;
     public GameObject rightInteractions;
 
-    void Start()
-    {
-        currentIndex = 0;
-        startMoving = true;
+    [Header("Disable Object At Waypoint")]
+    public GameObject objectToDisable;
+    public int disableAtIndex = 5;
+    private bool objectDisabled = false;
 
-        if (locomotor != null)
-        {
-            locomotor.SetActive(false);
-        }
+    public GameObject TargetCanvas;
 
-        if (leftInteractions != null)
-        {
-            leftInteractions.SetActive(false);
-        }
 
-        if (rightInteractions != null)
-        {
-            rightInteractions.SetActive(false);
-        }
-        originalParent = playerRig.transform.parent;
+    /* void Start()
+     {
+         currentIndex = 0;
+         startMoving = true;
 
-        playerRig.transform.SetParent(cameraPoint);
+         if (locomotor != null)
+         {
+             locomotor.SetActive(false);
+         }
 
-        playerRig.transform.localPosition = Vector3.zero;
-        playerRig.transform.localRotation = Quaternion.identity;
-    }
+         if (leftInteractions != null)
+         {
+             leftInteractions.SetActive(false);
+         }
+
+         if (rightInteractions != null)
+         {
+             rightInteractions.SetActive(false);
+         }
+         originalParent = playerRig.transform.parent;
+
+         playerRig.transform.SetParent(cameraPoint);
+
+         playerRig.transform.localPosition = Vector3.zero;
+         playerRig.transform.localRotation = Quaternion.identity;
+     }*/
 
     void Update()
     {
         if (!startMoving || currentIndex >= waypoints.Length)
             return;
+
+        if (!objectDisabled && currentIndex == disableAtIndex)
+        {
+            objectDisabled = true;
+
+            if (objectToDisable != null)
+            {
+                objectToDisable.SetActive(false);
+            }
+        }
 
         Transform target = waypoints[currentIndex];
 
@@ -126,7 +144,25 @@ public class PlaneCircleFly : MonoBehaviour
         {
             rightInteractions.SetActive(true);
         }
+        objectDisabled = false;
+        if (objectToDisable != null)
+        {
+            objectToDisable.SetActive(true);
+        }
 
+        TargetCanvas.SetActive(true);
+
+        StartCoroutine(EnableMovementAfterDelay());
     }
+    
 
+    IEnumerator EnableMovementAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+
+        if (locomotor != null)
+        {
+            locomotor.SetActive(false);
+        }
+    }
 }
