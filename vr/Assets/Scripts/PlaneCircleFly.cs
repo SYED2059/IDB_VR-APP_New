@@ -36,6 +36,21 @@ public class PlaneCircleFly : MonoBehaviour
     private bool objectDisabled = false;
 
     public GameObject TargetCanvas;
+    public GameObject TargetLoopCanvas;
+
+
+    [Header("UI Card Animation")]
+    public GameObject[] uiCards;
+    public bool startUICardLoop = false;
+
+    public float cardStartDistance = 30f;
+    public float cardCenterDistance = 4f;
+    public float cardEndDistance = -10f;
+
+    public float enterDuration = 5f;
+    public float stayDuration = 1.5f;
+    public float exitDuration = 4f;
+    public float delayBetweenCards = 0.5f;
 
 
     /* void Start()
@@ -153,6 +168,7 @@ public class PlaneCircleFly : MonoBehaviour
         TargetCanvas.SetActive(true);
 
         StartCoroutine(EnableMovementAfterDelay());
+        StartCoroutine(ShowUICardsLoop());
     }
     
 
@@ -164,5 +180,97 @@ public class PlaneCircleFly : MonoBehaviour
         {
             locomotor.SetActive(false);
         }
+    }
+
+
+    IEnumerator ShowUICardsLoop()
+    {
+        while (startUICardLoop)
+        {
+            for (int i = 0; i < uiCards.Length; i++)
+            {
+                GameObject currentCard = uiCards[i];
+
+                if (currentCard == null)
+                    continue;
+
+                currentCard.SetActive(true);
+
+                CanvasGroup cg = currentCard.GetComponent<CanvasGroup>();
+
+                if (cg == null)
+                {
+                    cg = currentCard.AddComponent<CanvasGroup>();
+                }
+
+                cg.alpha = 0f;
+
+                Vector3 startLocalPos = new Vector3(0f, 0f, cardStartDistance);
+                Vector3 centerLocalPos = new Vector3(0f, 0f, cardCenterDistance);
+                Vector3 endLocalPos = new Vector3(0f, 0f, cardEndDistance);
+
+                currentCard.transform.localPosition = startLocalPos;
+                currentCard.transform.localRotation = Quaternion.identity;
+                currentCard.transform.localScale = Vector3.one;
+
+                float enterTimer = 0f;
+
+                while (enterTimer < enterDuration)
+                {
+                    enterTimer += Time.deltaTime;
+
+                    float t = enterTimer / enterDuration;
+
+                    currentCard.transform.localPosition = Vector3.Lerp(
+                        startLocalPos,
+                        centerLocalPos,
+                        t
+                    );
+
+                    cg.alpha = Mathf.Lerp(0f, 1f, t);
+
+                    yield return null;
+                }
+
+                currentCard.transform.localPosition = centerLocalPos;
+                cg.alpha = 1f;
+
+                yield return new WaitForSeconds(stayDuration);
+
+                float exitTimer = 0f;
+
+                while (exitTimer < exitDuration)
+                {
+                    exitTimer += Time.deltaTime;
+
+                    float t = exitTimer / exitDuration;
+
+                    currentCard.transform.localPosition = Vector3.Lerp(
+                        centerLocalPos,
+                        endLocalPos,
+                        t
+                    );
+
+                    cg.alpha = Mathf.Lerp(1f, 0f, t);
+
+                    yield return null;
+                }
+
+                currentCard.transform.localPosition = endLocalPos;
+                cg.alpha = 0f;
+
+                currentCard.SetActive(false);
+
+                yield return new WaitForSeconds(delayBetweenCards);
+            }
+        }
+    }
+
+    public void ActiveLoop()
+    {
+        TargetCanvas.SetActive(false);
+        TargetLoopCanvas.SetActive(true);
+        startUICardLoop = true;
+        StartCoroutine(ShowUICardsLoop());
     }
 }
