@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.VFX;
+using UnityEngine.XR;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class GameManager : MonoBehaviour
 
     public Transform SpaceshipRestartPoint;
     public Transform PlayerCameraRestartPoint;
+
+    public Transform PlayerCameraStartingPoint;
+
 
     public GameObject locomotor;
     public GameObject EnterButton;
@@ -42,10 +46,22 @@ public class GameManager : MonoBehaviour
     public float exitDuration = 1f;
     public float delayBetweenCards = 0.1f;
 
+
     void Start()
     {
-       
+        StartCoroutine(Align());
     }
+
+    IEnumerator Align()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        Vector3 dir = (SpaceshipObj.position - PlayerCameraObj.position);
+        dir.y = 0; // avoid tilt
+
+        PlayerCameraObj.rotation = Quaternion.LookRotation(dir);
+    }
+
     public void OnEnterClicked()
     {
         Debug.Log("Enter Button Clicked");
@@ -105,7 +121,97 @@ public class GameManager : MonoBehaviour
         StartCoroutine(EnableMovementAfterDelay());
         TargetCanvasObj.SetActive(true);
     }
-   
+
+    /* public void ActiveLoop()
+     {
+         TargetCanvasObj.SetActive(false);
+         LoopCanvasObj.SetActive(true);
+         startUICardLoop = true;
+         StartCoroutine(ShowUICardsLoop());
+     }
+
+     IEnumerator ShowUICardsLoop()
+     {
+         while (startUICardLoop)
+         {
+             for (int i = 0; i < uiCards.Length; i++)
+             {
+                 GameObject currentCard = uiCards[i];
+
+                 if (currentCard == null)
+                     continue;
+
+                 currentCard.SetActive(true);
+
+                 CanvasGroup cg = currentCard.GetComponent<CanvasGroup>();
+
+                 if (cg == null)
+                 {
+                     cg = currentCard.AddComponent<CanvasGroup>();
+                 }
+
+                 cg.alpha = 0f;
+
+                 Vector3 startLocalPos = new Vector3(0f, 0f, cardStartDistance);
+                 Vector3 centerLocalPos = new Vector3(0f, 0f, cardCenterDistance);
+                 Vector3 endLocalPos = new Vector3(0f, 0f, cardEndDistance);
+
+                 currentCard.transform.localPosition = startLocalPos;
+                 currentCard.transform.localRotation = Quaternion.identity;
+                 currentCard.transform.localScale = Vector3.one;
+
+                 float enterTimer = 0f;
+
+                 while (enterTimer < enterDuration)
+                 {
+                     enterTimer += Time.deltaTime;
+
+                     float t = enterTimer / enterDuration;
+
+                     currentCard.transform.localPosition = Vector3.Lerp(
+                         startLocalPos,
+                         centerLocalPos,
+                         t
+                     );
+
+                     cg.alpha = Mathf.Lerp(0f, 1f, t);
+
+                     yield return null;
+                 }
+
+                 currentCard.transform.localPosition = centerLocalPos;
+                 cg.alpha = 1f;
+
+                 yield return new WaitForSeconds(stayDuration);
+
+                 float exitTimer = 0f;
+
+                 while (exitTimer < exitDuration)
+                 {
+                     exitTimer += Time.deltaTime;
+
+                     float t = exitTimer / exitDuration;
+
+                     currentCard.transform.localPosition = Vector3.Lerp(
+                         centerLocalPos,
+                         endLocalPos,
+                         t
+                     );
+
+                     cg.alpha = Mathf.Lerp(1f, 0f, t);
+
+                     yield return null;
+                 }
+
+                 currentCard.transform.localPosition = endLocalPos;
+                 cg.alpha = 0f;
+
+                 currentCard.SetActive(false);
+
+                 yield return new WaitForSeconds(delayBetweenCards);
+             }
+         }
+     }*/
     public void ActiveLoop()
     {
         TargetCanvasObj.SetActive(false);
@@ -116,6 +222,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ShowUICardsLoop()
     {
+        float sideOffset = 80f; 
+
         while (startUICardLoop)
         {
             for (int i = 0; i < uiCards.Length; i++)
@@ -128,28 +236,26 @@ public class GameManager : MonoBehaviour
                 currentCard.SetActive(true);
 
                 CanvasGroup cg = currentCard.GetComponent<CanvasGroup>();
-
                 if (cg == null)
-                {
                     cg = currentCard.AddComponent<CanvasGroup>();
-                }
 
                 cg.alpha = 0f;
 
+                bool goRight = (i % 2 == 0);
+
                 Vector3 startLocalPos = new Vector3(0f, 0f, cardStartDistance);
                 Vector3 centerLocalPos = new Vector3(0f, 0f, cardCenterDistance);
-                Vector3 endLocalPos = new Vector3(0f, 0f, cardEndDistance);
+
+                Vector3 endLocalPos = goRight
+                    ? new Vector3(sideOffset, 0f, cardEndDistance)
+                    : new Vector3(-sideOffset, 0f, cardEndDistance);
 
                 currentCard.transform.localPosition = startLocalPos;
-                currentCard.transform.localRotation = Quaternion.identity;
-                currentCard.transform.localScale = Vector3.one;
 
                 float enterTimer = 0f;
-
                 while (enterTimer < enterDuration)
                 {
                     enterTimer += Time.deltaTime;
-
                     float t = enterTimer / enterDuration;
 
                     currentCard.transform.localPosition = Vector3.Lerp(
@@ -169,26 +275,23 @@ public class GameManager : MonoBehaviour
                 yield return new WaitForSeconds(stayDuration);
 
                 float exitTimer = 0f;
-
                 while (exitTimer < exitDuration)
                 {
                     exitTimer += Time.deltaTime;
-
                     float t = exitTimer / exitDuration;
+
+                    float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
                     currentCard.transform.localPosition = Vector3.Lerp(
                         centerLocalPos,
                         endLocalPos,
-                        t
+                        smoothT
                     );
 
                     cg.alpha = Mathf.Lerp(1f, 0f, t);
 
                     yield return null;
                 }
-
-                currentCard.transform.localPosition = endLocalPos;
-                cg.alpha = 0f;
 
                 currentCard.SetActive(false);
 
