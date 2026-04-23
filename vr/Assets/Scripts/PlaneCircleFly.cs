@@ -273,4 +273,6 @@ public class PlaneCircleFly : MonoBehaviour
         startUICardLoop = true;
         StartCoroutine(ShowUICardsLoop());
     }
+
+
 }
