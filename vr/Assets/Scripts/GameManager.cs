@@ -2,85 +2,86 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
-    /* public Transform CameraObj;
-     public Transform TargetObj;
-     public GameObject TargetCanvas;
-     public PlaneCircleFly planeCircleFly;*/
+    public Transform SpaceshipObj;
+    public Transform PlayerCameraObj;
 
-    public GameObject PlaneObj;
-    public GameObject PlayerCameraObj;
+    public Transform SpaceshipEntryPoint;
+    public Transform PlayerCameraEntryPoint;
 
+    public Transform SpaceshipBeginPoint;
+    public Transform PlayerCameraBeginPoint;
 
-    public Button EnterButton;
-    public Button BeginButton;
+    public GameObject locomotor;
+    public GameObject EnterButton;
+    public GameObject BeginButton;
 
-    void OnEnable()
+    public GameObject VfxObj;
+    public VisualEffect Vfx;
+
+    void Start()
     {
-        EnterButton.onClick.AddListener(OnEnterClicked);
-        BeginButton.onClick.AddListener(OnBeginClicked);
+        Vfx.Reinit();
+        Vfx.SendEvent("OnPlay");
     }
-
-    void OnDisable()
-    {
-        EnterButton.onClick.RemoveListener(OnEnterClicked);
-        BeginButton.onClick.RemoveListener(OnBeginClicked);
-    }
-
-    void OnEnterClicked()
+    public void OnEnterClicked()
     {
         Debug.Log("Enter Button Clicked");
+
+        if (SpaceshipObj && SpaceshipEntryPoint)
+        {
+            SpaceshipObj.SetPositionAndRotation(
+                SpaceshipEntryPoint.position,
+                SpaceshipEntryPoint.rotation
+            );
+        }
+
+        if (PlayerCameraObj && PlayerCameraEntryPoint)
+        {
+            PlayerCameraObj.SetPositionAndRotation(
+                PlayerCameraEntryPoint.position,
+                PlayerCameraEntryPoint.rotation
+            );
+        }
+        StartCoroutine(EnableMovementAfterDelay());
+        EnterButton.SetActive(false);
+
     }
 
-    void OnBeginClicked()
+    IEnumerator EnableMovementAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+
+        if (locomotor != null)
+        {
+            locomotor.SetActive(false);
+        }
+    }
+
+    public void OnBeginClicked()
     {
         Debug.Log("Begin Button Clicked");
+        locomotor.SetActive(true);
+        /*VfxObj.SetActive(true);
+        Vfx.Play();*/
+        if (SpaceshipObj && SpaceshipEntryPoint)
+        {
+            SpaceshipObj.SetPositionAndRotation(
+                SpaceshipBeginPoint.position,
+                SpaceshipBeginPoint.rotation
+            );
+        }
+
+        if (PlayerCameraObj && PlayerCameraEntryPoint)
+        {
+            PlayerCameraObj.SetPositionAndRotation(
+                PlayerCameraBeginPoint.position,
+                PlayerCameraBeginPoint.rotation
+            );
+        }
+        StartCoroutine(EnableMovementAfterDelay());
     }
-
-
-    /* public void CameraPosChange()
-     {
-         planeCircleFly.currentIndex = 0;
-         planeCircleFly.startMoving = true;
-
-         if (planeCircleFly.locomotor != null)
-         {
-             planeCircleFly.locomotor.SetActive(false);
-         }
-
-         if (planeCircleFly.leftInteractions != null)
-         {
-             planeCircleFly.leftInteractions.SetActive(false);
-         }
-
-         if (planeCircleFly.rightInteractions != null)
-         {
-             planeCircleFly.rightInteractions.SetActive(false);
-         }
-
-         planeCircleFly.originalParent = planeCircleFly.playerRig.transform.parent;
-
-         planeCircleFly.playerRig.transform.SetParent(planeCircleFly.cameraPoint);
-
-         planeCircleFly.playerRig.transform.localPosition = Vector3.zero;
-         planeCircleFly.playerRig.transform.localRotation = Quaternion.identity;
-
-     }
-
-     public void ColorChange(Button button)
-     {
-         if (button.image.color == Color.red)
-         {
-             button.image.color = Color.white;
-         }
-         else
-         {
-             button.image.color = Color.red;
-         }
-
-     }*/
-
-
 }
