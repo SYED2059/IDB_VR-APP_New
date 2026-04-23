@@ -5,49 +5,82 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Transform CameraObj;
-    public Transform TargetObj;
-    public GameObject TargetCanvas;
-    public PlaneCircleFly planeCircleFly;
-    public void CameraPosChange()
+    /* public Transform CameraObj;
+     public Transform TargetObj;
+     public GameObject TargetCanvas;
+     public PlaneCircleFly planeCircleFly;*/
+
+    public GameObject PlaneObj;
+    public GameObject PlayerCameraObj;
+
+
+    public Button EnterButton;
+    public Button BeginButton;
+
+    void OnEnable()
     {
-        planeCircleFly.currentIndex = 0;
-        planeCircleFly.startMoving = true;
-
-        if (planeCircleFly.locomotor != null)
-        {
-            planeCircleFly.locomotor.SetActive(false);
-        }
-
-        if (planeCircleFly.leftInteractions != null)
-        {
-            planeCircleFly.leftInteractions.SetActive(false);
-        }
-
-        if (planeCircleFly.rightInteractions != null)
-        {
-            planeCircleFly.rightInteractions.SetActive(false);
-        }
-
-        planeCircleFly.originalParent = planeCircleFly.playerRig.transform.parent;
-
-        planeCircleFly.playerRig.transform.SetParent(planeCircleFly.cameraPoint);
-
-        planeCircleFly.playerRig.transform.localPosition = Vector3.zero;
-        planeCircleFly.playerRig.transform.localRotation = Quaternion.identity;
-
+        EnterButton.onClick.AddListener(OnEnterClicked);
+        BeginButton.onClick.AddListener(OnBeginClicked);
     }
 
-    public void ColorChange(Button button)
+    void OnDisable()
     {
-        if (button.image.color == Color.red)
-        {
-            button.image.color = Color.white;
-        }
-        else
-        {
-            button.image.color = Color.red;
-        }
-
+        EnterButton.onClick.RemoveListener(OnEnterClicked);
+        BeginButton.onClick.RemoveListener(OnBeginClicked);
     }
+
+    void OnEnterClicked()
+    {
+        Debug.Log("Enter Button Clicked");
+    }
+
+    void OnBeginClicked()
+    {
+        Debug.Log("Begin Button Clicked");
+    }
+
+
+    /* public void CameraPosChange()
+     {
+         planeCircleFly.currentIndex = 0;
+         planeCircleFly.startMoving = true;
+
+         if (planeCircleFly.locomotor != null)
+         {
+             planeCircleFly.locomotor.SetActive(false);
+         }
+
+         if (planeCircleFly.leftInteractions != null)
+         {
+             planeCircleFly.leftInteractions.SetActive(false);
+         }
+
+         if (planeCircleFly.rightInteractions != null)
+         {
+             planeCircleFly.rightInteractions.SetActive(false);
+         }
+
+         planeCircleFly.originalParent = planeCircleFly.playerRig.transform.parent;
+
+         planeCircleFly.playerRig.transform.SetParent(planeCircleFly.cameraPoint);
+
+         planeCircleFly.playerRig.transform.localPosition = Vector3.zero;
+         planeCircleFly.playerRig.transform.localRotation = Quaternion.identity;
+
+     }
+
+     public void ColorChange(Button button)
+     {
+         if (button.image.color == Color.red)
+         {
+             button.image.color = Color.white;
+         }
+         else
+         {
+             button.image.color = Color.red;
+         }
+
+     }*/
+
+
 }
