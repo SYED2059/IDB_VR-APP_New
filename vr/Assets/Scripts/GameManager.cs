@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public Transform SpaceshipBeginPoint;
     public Transform PlayerCameraBeginPoint;
 
+    public Transform SpaceshipRestartPoint;
+    public Transform PlayerCameraRestartPoint;
+
     public GameObject locomotor;
     public GameObject EnterButton;
     public GameObject BeginButton;
@@ -192,5 +195,34 @@ public class GameManager : MonoBehaviour
                 yield return new WaitForSeconds(delayBetweenCards);
             }
         }
+    }
+
+    public void OnRestartClicked()
+    {
+        Debug.Log("Restart Button Clicked");
+        startUICardLoop = false;
+        EnterButton.SetActive(true);
+        BeginButton.SetActive(true);
+        TargetCanvasObj.SetActive(false);
+        LoopCanvasObj.SetActive(false);
+        Vfx.Stop();
+        VfxObj.SetActive(false);
+
+        if (SpaceshipObj && SpaceshipEntryPoint)
+        {
+            SpaceshipObj.SetPositionAndRotation(
+                SpaceshipRestartPoint.position,
+                SpaceshipRestartPoint.rotation
+            );
+        }
+
+        if (PlayerCameraObj && PlayerCameraEntryPoint)
+        {
+            PlayerCameraObj.SetPositionAndRotation(
+                PlayerCameraRestartPoint.position,
+                PlayerCameraRestartPoint.rotation
+            );
+        }
+        
     }
 }
