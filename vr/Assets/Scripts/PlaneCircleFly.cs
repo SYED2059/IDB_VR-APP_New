@@ -272,7 +272,6 @@ public class PlaneCircleFly : MonoBehaviour
         TargetLoopCanvas.SetActive(true);
         startUICardLoop = true;
         StartCoroutine(ShowUICardsLoop());
-        Debug.Log("startUICardLoop" +: startUICardLoop);
     }
 
 
