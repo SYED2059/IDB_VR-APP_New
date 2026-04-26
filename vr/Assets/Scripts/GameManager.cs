@@ -100,9 +100,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Begin Button Clicked");
         locomotor.SetActive(true);
-        VfxObj.SetActive(true);
-        Vfx.Reinit();
-        Vfx.SendEvent("OnPlay");
+        //VfxObj.SetActive(true);
+        //Vfx.Reinit();
+        //Vfx.SendEvent("OnPlay");
         if (SpaceshipObj && SpaceshipEntryPoint)
         {
             SpaceshipObj.SetPositionAndRotation(
