@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.XR;
+using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class GameManager : MonoBehaviour
     public GameObject TargetCanvasObj;
     public GameObject LoopCanvasObj;
 
+    public GameObject MainCanvas;
+    public GameObject targetImage;
+
+
 
     public GameObject VfxObj;
     public VisualEffect Vfx;
@@ -46,10 +51,15 @@ public class GameManager : MonoBehaviour
     public float exitDuration = 1f;
     public float delayBetweenCards = 0.1f;
 
+    public VideoPlayer videoPlayer;
+    public VideoClip Clip_1;
+
+
 
     void Start()
     {
         StartCoroutine(Align());
+        videoPlayer.waitForFirstFrame = true;
     }
 
     IEnumerator Align()
@@ -218,11 +228,12 @@ public class GameManager : MonoBehaviour
         LoopCanvasObj.SetActive(true);
         startUICardLoop = true;
         StartCoroutine(ShowUICardsLoop());
+        StartCoroutine(StopLoopAfterTime(5f));
     }
 
     IEnumerator ShowUICardsLoop()
     {
-        float sideOffset = 80f; 
+        float sideOffset = 80f;
 
         while (startUICardLoop)
         {
@@ -300,6 +311,55 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator StopLoopAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        startUICardLoop = false;
+
+        // Fade Out Video
+        yield return StartCoroutine(FadeVideo(1f, 0f, 0.5f));
+
+        // Change UI
+        LoopCanvasObj.SetActive(false);
+        SpaceshipObj.gameObject.SetActive(false);
+        TargetCanvasObj.SetActive(false);
+        MainCanvas.SetActive(true);
+
+        // Change Video
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_1;
+        videoPlayer.Play();
+
+        // Wait till video ready (important)
+        yield return new WaitUntil(() => videoPlayer.isPlaying);
+
+        // Fade In Video
+        yield return StartCoroutine(FadeVideo(0f, 1f, 0.5f));
+    }
+
+    IEnumerator FadeVideo(float start, float end, float duration)
+    {
+        CanvasGroup cg = videoPlayer.GetComponent<CanvasGroup>();
+
+        if (cg == null)
+            cg = videoPlayer.gameObject.AddComponent<CanvasGroup>();
+
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / duration;
+
+            cg.alpha = Mathf.Lerp(start, end, t);
+
+            yield return null;
+        }
+
+        cg.alpha = end;
+    }
+
     public void OnRestartClicked()
     {
         Debug.Log("Restart Button Clicked");
@@ -326,6 +386,19 @@ public class GameManager : MonoBehaviour
                 PlayerCameraRestartPoint.rotation
             );
         }
-        
+
+    }
+
+    public void TogglePlayPause()
+    {
+        targetImage.SetActive(!targetImage.activeSelf);
+        if (videoPlayer.isPlaying)
+        {
+            videoPlayer.Pause();
+        }
+        else
+        {
+            videoPlayer.Play();
+        }
     }
 }
