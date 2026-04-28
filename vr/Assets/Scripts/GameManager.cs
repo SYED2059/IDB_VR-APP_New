@@ -54,6 +54,10 @@ public class GameManager : MonoBehaviour
 
     public VideoPlayer videoPlayer;
     public VideoClip Clip_1;
+    public VideoClip Clip_2;
+    public VideoClip Clip_3;
+    public VideoClip Clip_4;
+
 
 
 
@@ -307,6 +311,8 @@ public class GameManager : MonoBehaviour
     public Sprite normalSprite;
     private Button currentActive;
 
+    public GameObject ContinueBtn;
+
     public void TogglePlayPause(Button clickedBtn)
     {
         // Update button visuals
@@ -331,12 +337,71 @@ public class GameManager : MonoBehaviour
         {
             OnClip1Finished();
         }
+        if (vp.clip == Clip_2)
+        {
+            OnClip2Finished();
+        }
+        if (vp.clip == Clip_3)
+        {
+            OnClip3Finished();
+        }
+        if (vp.clip == Clip_4)
+        {
+            OnClip4Finished();
+        }
+
     }
     void OnClip1Finished()
     {
         Debug.Log("Clip 1 Finished!");
         targetImage.SetActive(false);
         MainCanvas.SetActive(false);
+        MainButtonCanvas.SetActive(true);
+    }
+
+    void OnClip2Finished()
+    {
+        Debug.Log("Clip 2 Finished!");
+        ContinueBtn.SetActive(true);
+    }
+    void OnClip3Finished()
+    {
+        Debug.Log("Clip 3Finished!");
+        ContinueBtn.SetActive(true);
+    }
+    void OnClip4Finished()
+    {
+        Debug.Log("Clip 4 Finished!");
+        ContinueBtn.SetActive(true);
+    }
+
+    public void BiologicsFN(Button Btn)
+    {
+        Btn.interactable = false;
+        MainButtonCanvas.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_2;
+        videoPlayer.Play();
+    }
+    public void SmallmoleculesFN(Button Btn)
+    {
+        Btn.interactable = false;
+        MainButtonCanvas.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_3;
+        videoPlayer.Play();
+    }
+    public void ContinueFN(Button Btn)
+    {
+        Btn.interactable = false;
+        MainButtonCanvas.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_4;
+        videoPlayer.Play();
+    }
+    public void ContinueBtnFN()
+    {
+        ContinueBtn.SetActive(false);
         MainButtonCanvas.SetActive(true);
     }
 
