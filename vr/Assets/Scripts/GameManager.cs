@@ -8,58 +8,68 @@ using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Transforms")]
     public Transform SpaceshipObj;
     public Transform PlayerCameraObj;
-
     public Transform SpaceshipEntryPoint;
     public Transform PlayerCameraEntryPoint;
-
     public Transform SpaceshipBeginPoint;
     public Transform PlayerCameraBeginPoint;
-
     public Transform SpaceshipRestartPoint;
     public Transform PlayerCameraRestartPoint;
-
     public Transform PlayerCameraStartingPoint;
 
-
+    [Header("GameObjects")]
+    public GameObject VfxObj;
     public GameObject locomotor;
     public GameObject EnterButton;
     public GameObject BeginButton;
     public GameObject TargetCanvasObj;
     public GameObject LoopCanvasObj;
-
     public GameObject MainCanvas;
     public GameObject targetImage;
     public GameObject MainButtonCanvas;
-
-
-
-    public GameObject VfxObj;
-    public VisualEffect Vfx;
-
+    public GameObject ContinueBtn;
+    public GameObject ContinueDoubleBtn;
+    public GameObject NormalSphere;
+    public GameObject DoubleSphere;
+    public GameObject DoublePanel;
+    public GameObject DoubleSubPanel;
 
     [Header("UI Card Animation")]
     public GameObject[] uiCards;
     public bool startUICardLoop = false;
-
     public float cardStartDistance = 50f;
     public float cardCenterDistance = 4f;
     public float cardEndDistance = -50f;
-
     public float enterDuration = 3f;
     public float stayDuration = 0.5f;
     public float exitDuration = 1f;
     public float delayBetweenCards = 0.1f;
 
+    [Header("VideoPlayer")]
     public VideoPlayer videoPlayer;
+    public VideoPlayer DoubleVideoPlayer_1;
+    public VideoPlayer DoubleVideoPlayer_2;
+
+    [Header("VideoClips")]
     public VideoClip Clip_1;
     public VideoClip Clip_2;
     public VideoClip Clip_3;
     public VideoClip Clip_4;
+    public VideoClip Clip_5;
+    public VideoClip Clip_6;
+    public VideoClip Clip_7;
+    public VideoClip Clip_8;
+    public VideoClip Clip_9;
 
+    [Header("ButtonActiveVariable")]
+    public Button[] buttons;
+    public Sprite activeSprite;
+    public Sprite normalSprite;
+    private Button currentActive;
 
-
+    public VisualEffect Vfx;
 
     void Start()
     {
@@ -73,7 +83,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         Vector3 dir = (SpaceshipObj.position - PlayerCameraObj.position);
-        dir.y = 0; // avoid tilt
+        dir.y = 0; 
 
         PlayerCameraObj.rotation = Quaternion.LookRotation(dir);
     }
@@ -138,7 +148,6 @@ public class GameManager : MonoBehaviour
         TargetCanvasObj.SetActive(true);
     }
 
-    
     public void ActiveLoop()
     {
         TargetCanvasObj.SetActive(false);
@@ -235,24 +244,19 @@ public class GameManager : MonoBehaviour
 
         startUICardLoop = false;
 
-        // Fade Out Video
         yield return StartCoroutine(FadeVideo(1f, 0f, 0.5f));
 
-        // Change UI
         LoopCanvasObj.SetActive(false);
         SpaceshipObj.gameObject.SetActive(false);
         TargetCanvasObj.SetActive(false);
         MainCanvas.SetActive(true);
 
-        // Change Video
         videoPlayer.Stop();
         videoPlayer.clip = Clip_1;
         videoPlayer.Play();
 
-        // Wait till video ready (important)
         yield return new WaitUntil(() => videoPlayer.isPlaying);
 
-        // Fade In Video
         yield return StartCoroutine(FadeVideo(0f, 1f, 0.5f));
     }
 
@@ -306,16 +310,9 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    public Button[] buttons;
-    public Sprite activeSprite;
-    public Sprite normalSprite;
-    private Button currentActive;
-
-    public GameObject ContinueBtn;
 
     public void TogglePlayPause(Button clickedBtn)
     {
-        // Update button visuals
         if (currentActive != null)
         {
             currentActive.GetComponent<Image>().sprite = normalSprite;
@@ -324,7 +321,6 @@ public class GameManager : MonoBehaviour
         clickedBtn.GetComponent<Image>().sprite = activeSprite;
         currentActive = clickedBtn;
         targetImage.SetActive(!targetImage.activeSelf);
-        // Toggle video
         if (videoPlayer.isPlaying)
             videoPlayer.Pause();
         else
@@ -349,8 +345,28 @@ public class GameManager : MonoBehaviour
         {
             OnClip4Finished();
         }
-
+        if (vp.clip == Clip_5)
+        {
+            OnClip5Finished();
+        }
+        if (vp.clip == Clip_6)
+        {
+            OnClip6Finished();
+        }
+        if (vp.clip == Clip_7)
+        {
+            OnClip7Finished();
+        }
+        if (vp.clip == Clip_8)
+        {
+            OnClip8Finished();
+        }
+        if (vp.clip == Clip_9)
+        {
+            OnClip9Finished();
+        }
     }
+
     void OnClip1Finished()
     {
         Debug.Log("Clip 1 Finished!");
@@ -364,15 +380,48 @@ public class GameManager : MonoBehaviour
         Debug.Log("Clip 2 Finished!");
         ContinueBtn.SetActive(true);
     }
+
     void OnClip3Finished()
     {
         Debug.Log("Clip 3Finished!");
         ContinueBtn.SetActive(true);
     }
+
     void OnClip4Finished()
     {
         Debug.Log("Clip 4 Finished!");
-        ContinueBtn.SetActive(true);
+        //ContinueBtn.SetActive(true);
+        NormalSphere.SetActive(false);
+        DoubleSphere.SetActive(true);
+        videoPlayer.gameObject.SetActive(false);
+        DoubleVideoPlayer_1.gameObject.SetActive(true);
+        DoubleVideoPlayer_2.gameObject.SetActive(true);
+        DoublePanel.SetActive(true);
+    }
+
+    void OnClip5Finished()
+    {
+        DoubleSubPanel.SetActive(true);
+    }
+
+    void OnClip6Finished()
+    {
+        DoubleSubPanel.SetActive(true);
+    }
+
+    void OnClip7Finished()
+    {
+        ContinueDoubleBtn.SetActive(true);
+    }
+
+    void OnClip8Finished()
+    {
+        ContinueDoubleBtn.SetActive(true);
+    }
+
+    void OnClip9Finished()
+    {
+        ContinueDoubleBtn.SetActive(true);
     }
 
     public void BiologicsFN(Button Btn)
@@ -383,7 +432,8 @@ public class GameManager : MonoBehaviour
         videoPlayer.clip = Clip_2;
         videoPlayer.Play();
     }
-    public void SmallmoleculesFN(Button Btn)
+
+    public void SmallMoleculesFN(Button Btn)
     {
         Btn.interactable = false;
         MainButtonCanvas.SetActive(false);
@@ -391,6 +441,7 @@ public class GameManager : MonoBehaviour
         videoPlayer.clip = Clip_3;
         videoPlayer.Play();
     }
+
     public void ContinueFN(Button Btn)
     {
         Btn.interactable = false;
@@ -399,11 +450,71 @@ public class GameManager : MonoBehaviour
         videoPlayer.clip = Clip_4;
         videoPlayer.Play();
     }
+
+    public void CrohnsDiseaseFn()
+    {
+        NormalSphere.SetActive(true);
+        DoubleSphere.SetActive(false);
+        DoublePanel.SetActive(false);
+        videoPlayer.gameObject.SetActive(true);
+        DoubleVideoPlayer_1.gameObject.SetActive(false);
+        DoubleVideoPlayer_2.gameObject.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_5;
+        videoPlayer.Play();
+    }
+
+    public void UlcerativeColitisFn()
+    {
+        NormalSphere.SetActive(true);
+        DoubleSphere.SetActive(false);
+        DoublePanel.SetActive(false);
+        videoPlayer.gameObject.SetActive(true);
+        DoubleVideoPlayer_1.gameObject.SetActive(false);
+        DoubleVideoPlayer_2.gameObject.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_6;
+        videoPlayer.Play();
+    }
+
     public void ContinueBtnFN()
     {
         ContinueBtn.SetActive(false);
         MainButtonCanvas.SetActive(true);
     }
+    //======================================================================================================
 
+    public void AntiTNFagentsFN(Button Btn)
+    {
+        Btn.interactable = false;
+        DoubleSubPanel.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_7;
+        videoPlayer.Play();
+    }
 
+    public void SmallMoleculesDoubleFN(Button Btn)
+    {
+        Btn.interactable = false;
+        DoubleSubPanel.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_8;
+        videoPlayer.Play();
+    }
+
+    public void ContinueDoubleFN(Button Btn)
+    {
+        Btn.interactable = false;
+        DoubleSubPanel.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_9;
+        videoPlayer.Play();
+    }
+
+    public void ContinueDoubleBtnFN()
+    {
+        ContinueDoubleBtn.SetActive(false);
+        DoubleSubPanel.SetActive(true);
+    }
+    //======================================================================================================
 }
