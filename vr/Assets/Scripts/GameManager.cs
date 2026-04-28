@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject MainCanvas;
     public GameObject targetImage;
+    public GameObject MainButtonCanvas;
 
 
 
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(Align());
         videoPlayer.waitForFirstFrame = true;
+        videoPlayer.loopPointReached += OnVideoFinished;
     }
 
     IEnumerator Align()
@@ -132,96 +134,7 @@ public class GameManager : MonoBehaviour
         TargetCanvasObj.SetActive(true);
     }
 
-    /* public void ActiveLoop()
-     {
-         TargetCanvasObj.SetActive(false);
-         LoopCanvasObj.SetActive(true);
-         startUICardLoop = true;
-         StartCoroutine(ShowUICardsLoop());
-     }
-
-     IEnumerator ShowUICardsLoop()
-     {
-         while (startUICardLoop)
-         {
-             for (int i = 0; i < uiCards.Length; i++)
-             {
-                 GameObject currentCard = uiCards[i];
-
-                 if (currentCard == null)
-                     continue;
-
-                 currentCard.SetActive(true);
-
-                 CanvasGroup cg = currentCard.GetComponent<CanvasGroup>();
-
-                 if (cg == null)
-                 {
-                     cg = currentCard.AddComponent<CanvasGroup>();
-                 }
-
-                 cg.alpha = 0f;
-
-                 Vector3 startLocalPos = new Vector3(0f, 0f, cardStartDistance);
-                 Vector3 centerLocalPos = new Vector3(0f, 0f, cardCenterDistance);
-                 Vector3 endLocalPos = new Vector3(0f, 0f, cardEndDistance);
-
-                 currentCard.transform.localPosition = startLocalPos;
-                 currentCard.transform.localRotation = Quaternion.identity;
-                 currentCard.transform.localScale = Vector3.one;
-
-                 float enterTimer = 0f;
-
-                 while (enterTimer < enterDuration)
-                 {
-                     enterTimer += Time.deltaTime;
-
-                     float t = enterTimer / enterDuration;
-
-                     currentCard.transform.localPosition = Vector3.Lerp(
-                         startLocalPos,
-                         centerLocalPos,
-                         t
-                     );
-
-                     cg.alpha = Mathf.Lerp(0f, 1f, t);
-
-                     yield return null;
-                 }
-
-                 currentCard.transform.localPosition = centerLocalPos;
-                 cg.alpha = 1f;
-
-                 yield return new WaitForSeconds(stayDuration);
-
-                 float exitTimer = 0f;
-
-                 while (exitTimer < exitDuration)
-                 {
-                     exitTimer += Time.deltaTime;
-
-                     float t = exitTimer / exitDuration;
-
-                     currentCard.transform.localPosition = Vector3.Lerp(
-                         centerLocalPos,
-                         endLocalPos,
-                         t
-                     );
-
-                     cg.alpha = Mathf.Lerp(1f, 0f, t);
-
-                     yield return null;
-                 }
-
-                 currentCard.transform.localPosition = endLocalPos;
-                 cg.alpha = 0f;
-
-                 currentCard.SetActive(false);
-
-                 yield return new WaitForSeconds(delayBetweenCards);
-             }
-         }
-     }*/
+    
     public void ActiveLoop()
     {
         TargetCanvasObj.SetActive(false);
@@ -313,6 +226,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StopLoopAfterTime(float time)
     {
+        videoPlayer.isLooping = false;
         yield return new WaitForSeconds(time);
 
         startUICardLoop = false;
@@ -388,17 +302,43 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    public Button[] buttons;
+    public Sprite activeSprite;
+    public Sprite normalSprite;
+    private Button currentActive;
 
-    public void TogglePlayPause()
+    public void TogglePlayPause(Button clickedBtn)
     {
-        targetImage.SetActive(!targetImage.activeSelf);
-        if (videoPlayer.isPlaying)
+        // Update button visuals
+        if (currentActive != null)
         {
-            videoPlayer.Pause();
+            currentActive.GetComponent<Image>().sprite = normalSprite;
         }
+
+        clickedBtn.GetComponent<Image>().sprite = activeSprite;
+        currentActive = clickedBtn;
+        targetImage.SetActive(!targetImage.activeSelf);
+        // Toggle video
+        if (videoPlayer.isPlaying)
+            videoPlayer.Pause();
         else
-        {
             videoPlayer.Play();
+    }
+
+    void OnVideoFinished(VideoPlayer vp)
+    {
+        if (vp.clip == Clip_1)
+        {
+            OnClip1Finished();
         }
     }
+    void OnClip1Finished()
+    {
+        Debug.Log("Clip 1 Finished!");
+        targetImage.SetActive(false);
+        MainCanvas.SetActive(false);
+        MainButtonCanvas.SetActive(true);
+    }
+
+
 }
