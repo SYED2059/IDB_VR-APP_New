@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 907.8 231">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        filter: url(#drop-shadow-1);
+        font-family: Frutiger-Light, 'Frutiger 45 Light';
+        font-size: 23px;
+        font-weight: 300;
+      }
+
+      .cls-2 {
+        fill: #6d0caa;
+        opacity: .71;
+        stroke: url(#linear-gradient);
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-3 {
+        letter-spacing: -.09em;
+      }
+
+      .cls-4 {
+        letter-spacing: -.11em;
+      }
+
+      .cls-5 {
+        letter-spacing: -.02em;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="450.19" y1="59.75" x2="450.19" y2="170.63" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="25"/>
+      <feFlood flood-color="#3a0768" flood-opacity=".7"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path class="cls-2" d="M836.54,169.63H63.84c-5.31,0-10.21-2.65-12.8-6.92L2.9,80.91c-5.48-9.03,1.59-20.16,12.8-20.16h868.98c11.22,0,18.29,11.14,12.8,20.16l-48.14,81.8c-2.6,4.27-7.49,6.92-12.8,6.92Z"/>
+      <text class="cls-1" transform="translate(90.59 94.94)"><tspan x="0" y="0">This can meaningfully influence exposu</tspan><tspan class="cls-5" x="383.38" y="0">r</tspan><tspan x="390.63" y="0">e consistenc</tspan><tspan class="cls-3" x="509.47" y="0">y</tspan><tspan x="517.56" y="0">, time to steady state, </tspan><tspan x="-3.85" y="27.6">and the clinical utility of </tspan><tspan class="cls-4" x="236.35" y="27.6">T</tspan><tspan x="245.3" y="27.6">arget Drug Monitoring in the setting of suspected </tspan><tspan x="283.87" y="55.2">loss of </tspan><tspan class="cls-5" x="352.9" y="55.2">r</tspan><tspan x="360.14" y="55.2">esponse. </tspan></text>
+    </g>
+  </g>
+</svg>

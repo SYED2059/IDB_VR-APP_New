@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 755.74 93.35">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #6d0caa;
+        opacity: .6;
+        stroke: url(#linear-gradient);
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        filter: url(#drop-shadow-1);
+        font-family: Frutiger-Light, 'Frutiger 45 Light';
+        font-size: 24px;
+        font-weight: 300;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="377.87" y1="0" x2="377.87" y2="93.35" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="10"/>
+      <feFlood flood-color="#3a0768" flood-opacity="1"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <path class="cls-1" d="M702.02,92.35H53.72c-4.45,0-8.56-2.22-10.74-5.81L2.59,17.92C-2.01,10.34,3.92,1,13.33,1h729.07c9.41,0,15.34,9.34,10.74,16.92l-40.39,68.63c-2.18,3.59-6.29,5.81-10.74,5.81Z"/>
+    <text class="cls-2" transform="translate(58.92 53.72)"><tspan x="0" y="0">Intravenous and subcutaneous formulations behave differently</tspan></text>
+  </g>
+</svg>

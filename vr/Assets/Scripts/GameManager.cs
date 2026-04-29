@@ -439,7 +439,8 @@ public class GameManager : MonoBehaviour
 
     void OnClip9Finished()
     {
-        ContinueDoubleBtn.SetActive(true);
+        //ContinueDoubleBtn.SetActive(true);
+        OnRestartClicked();
     }
 
     public void BiologicsFN(Button Btn)
@@ -449,31 +450,84 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_2;
         videoPlayer.Play();
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_2TargetObjects_1));
+        StartCoroutine(TriggerAtVideoTime(4f, Clip_2TargetObjects_2));
+        StartCoroutine(TriggerAtVideoTime(5f, Clip_2TargetObjects_3));
     }
 
     public void SmallMoleculesFN(Button Btn)
     {
         Btn.interactable = false;
         MainButtonCanvas.SetActive(false);
+
         videoPlayer.Stop();
         videoPlayer.clip = Clip_3;
         videoPlayer.Play();
 
-        StartCoroutine(AfterSecVideo(5f));
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_3TargetObjects_1));
+        StartCoroutine(TriggerAtVideoTime(4f, Clip_3TargetObjects_2));
+        //StartCoroutine(TriggerAtVideoTime(5f, Clip_3TargetObjects_3));
     }
 
-    public GameObject TargetObjects;
+    public GameObject TargetCanvas;
+    public GameObject Clip_2TargetObjects_1;
+    public GameObject Clip_2TargetObjects_2;
+    public GameObject Clip_2TargetObjects_3;
 
-    IEnumerator AfterSecVideo(float time)
+    public GameObject Clip_3TargetObjects_1;
+    public GameObject Clip_3TargetObjects_2;
+    //public GameObject Clip_3TargetObjects_3;
+
+    public GameObject Clip_4TargetObjects_1;
+    public GameObject Clip_4TargetObjects_2;
+    //public GameObject Clip_4TargetObjects_3;
+
+    public GameObject Clip_5TargetObjects_1;
+    //public GameObject Clip_5TargetObjects_2;
+    //public GameObject Clip_5TargetObjects_3;
+
+
+    public GameObject Clip_6TargetObjects_1;
+    //public GameObject Clip_6TargetObjects_2;
+    //public GameObject Clip_6TargetObjects_3;
+
+
+    public GameObject Clip_7TargetObjects_1;
+    //public GameObject Clip_7TargetObjects_2;
+    //public GameObject Clip_7TargetObjects_3;
+
+
+    public GameObject Clip_8TargetObjects_1;
+    //public GameObject Clip_8TargetObjects_2;
+    //public GameObject Clip_8TargetObjects_3;
+
+    public GameObject Clip_9TargetObjects_1;
+    //public GameObject Clip_9TargetObjects_2;
+    //public GameObject Clip_9TargetObjects_3;
+
+
+
+
+    IEnumerator TriggerAtVideoTime(double targetTime, GameObject targetObject)
     {
-        yield return new WaitForSeconds(time);
-        TargetObjects.SetActive(true);
-        StartCoroutine(HideAfterTwoSecVideo(2f));
-    }
-    IEnumerator HideAfterTwoSecVideo(float time)
-    {
-        yield return new WaitForSeconds(time);
-        TargetObjects.SetActive(false);
+        // wait until video actually starts
+        yield return new WaitUntil(() => videoPlayer.isPlaying);
+
+        // wait until video reaches time
+        while (videoPlayer.time < targetTime)
+        {
+            yield return null;
+        }
+
+        // show
+        targetObject.SetActive(true);
+        TargetCanvas.SetActive(true);
+
+        // hide after 2 sec (real time, not video time)
+        yield return new WaitForSeconds(1f);
+
+        targetObject.SetActive(false);
+        TargetCanvas.SetActive(false);
     }
 
 
@@ -485,6 +539,9 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_4;
         videoPlayer.Play();
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_4TargetObjects_1));
+        StartCoroutine(TriggerAtVideoTime(4f, Clip_4TargetObjects_2));
+        //StartCoroutine(TriggerAtVideoTime(5f, Clip_4TargetObjects_3));
     }
 
     public void CrohnsDiseaseFn()
@@ -498,6 +555,9 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_5;
         videoPlayer.Play();
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_5TargetObjects_1));
+        //StartCoroutine(TriggerAtVideoTime(4f, Clip_5TargetObjects_2));
+        //StartCoroutine(TriggerAtVideoTime(5f, Clip_5TargetObjects_3));
     }
 
     public void UlcerativeColitisFn()
@@ -511,6 +571,9 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_6;
         videoPlayer.Play();
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_6TargetObjects_1));
+        //StartCoroutine(TriggerAtVideoTime(4f, Clip_6TargetObjects_2));
+        //StartCoroutine(TriggerAtVideoTime(5f, Clip_6TargetObjects_3));
     }
 
     public void ContinueBtnFN()
@@ -527,6 +590,10 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_7;
         videoPlayer.Play();
+
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_7TargetObjects_1));
+        //StartCoroutine(TriggerAtVideoTime(4f, Clip_7TargetObjects_2));
+        //StartCoroutine(TriggerAtVideoTime(5f, Clip_7TargetObjects_3));
     }
 
     public void SmallMoleculesDoubleFN(Button Btn)
@@ -536,6 +603,9 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_8;
         videoPlayer.Play();
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_8TargetObjects_1));
+        //StartCoroutine(TriggerAtVideoTime(4f, Clip_8TargetObjects_2));
+        //StartCoroutine(TriggerAtVideoTime(5f, Clip_8TargetObjects_3));
     }
 
     public void ContinueDoubleFN(Button Btn)
@@ -545,6 +615,10 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_9;
         videoPlayer.Play();
+
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_9TargetObjects_1));
+        //StartCoroutine(TriggerAtVideoTime(4f, Clip_9TargetObjects_2));
+        //StartCoroutine(TriggerAtVideoTime(5f, Clip_9TargetObjects_3));
     }
 
     public void ContinueDoubleBtnFN()

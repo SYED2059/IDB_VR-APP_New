@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 555 203">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        filter: url(#drop-shadow-1);
+        font-family: Frutiger-Light, 'Frutiger 45 Light';
+        font-size: 23px;
+        font-weight: 300;
+      }
+
+      .cls-2 {
+        fill: #6d0caa;
+        opacity: .71;
+        stroke: url(#linear-gradient);
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-3 {
+        letter-spacing: -.02em;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="314.88" y1="-1716.3" x2="314.88" y2="-1605.42" gradientTransform="translate(592.67 -1561.13) rotate(-180)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="25"/>
+      <feFlood flood-color="#3a0768" flood-opacity=".7"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path class="cls-2" d="M91.44,45.29h372.7c5.31,0,10.21,2.65,12.8,6.92l48.14,81.8c5.48,9.03-1.59,20.16-12.8,20.16H43.3c-11.22,0-18.29-11.14-12.8-20.16l48.14-81.8c2.6-4.27,7.49-6.92,12.8-6.92Z"/>
+      <text class="cls-1" transform="translate(83.09 95.28)"><tspan x="0" y="0">Using a PK informed app</tspan><tspan class="cls-3" x="244.12" y="0">r</tspan><tspan x="251.37" y="0">oach supports </tspan><tspan x="22.2" y="27.6">individualized therapeutic decisions</tspan></text>
+    </g>
+  </g>
+</svg>

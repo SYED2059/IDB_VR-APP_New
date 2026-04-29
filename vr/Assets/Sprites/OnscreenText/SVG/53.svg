@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 926 231">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        filter: url(#drop-shadow-1);
+        font-family: Frutiger-Light, 'Frutiger 45 Light';
+        font-size: 23px;
+        font-weight: 300;
+      }
+
+      .cls-2 {
+        fill: #6d0caa;
+        opacity: .71;
+        stroke: url(#linear-gradient);
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-3 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-4 {
+        letter-spacing: -.02em;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="461.39" y1="59.82" x2="461.39" y2="170.7" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="25"/>
+      <feFlood flood-color="#3a0768" flood-opacity=".7"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path class="cls-2" d="M847.74,169.7H75.04c-5.31,0-10.21-2.65-12.8-6.92L14.1,80.98c-5.48-9.03,1.59-20.16,12.8-20.16h868.98c11.22,0,18.29,11.14,12.8,20.16l-48.14,81.8c-2.6,4.27-7.49,6.92-12.8,6.92Z"/>
+      <text class="cls-1" transform="translate(101.47 94.94)"><tspan x="0" y="0">Long-term corticoste</tspan><tspan class="cls-4" x="203.13" y="0">r</tspan><tspan x="210.38" y="0">oid use in ch</tspan><tspan class="cls-3" x="334.37" y="0">r</tspan><tspan x="341.61" y="0">onic inflammatory diseases can lead to </tspan><tspan x="-23.17" y="27.6">range of systemic complications that significantly a</tspan><tspan class="cls-4" x="473.85" y="27.6">f</tspan><tspan x="481.09" y="27.6">fect patients’ quality of life </tspan><tspan x="229.17" y="55.2">and inc</tspan><tspan class="cls-4" x="300.75" y="55.2">r</tspan><tspan x="307.99" y="55.2">ease mortality risk. </tspan></text>
+    </g>
+  </g>
+</svg>

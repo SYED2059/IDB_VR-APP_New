@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 922 204">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        filter: url(#drop-shadow-1);
+        font-family: Frutiger-Light, 'Frutiger 45 Light';
+        font-size: 23px;
+        font-weight: 300;
+      }
+
+      .cls-2 {
+        fill: #6d0caa;
+        opacity: .71;
+        stroke: url(#linear-gradient);
+        stroke-miterlimit: 10;
+        stroke-width: 1.83px;
+      }
+
+      .cls-3 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-4 {
+        letter-spacing: -.02em;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="460.81" y1="51" x2="460.81" y2="152.62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="25"/>
+      <feFlood flood-color="#3a0768" flood-opacity=".7"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path class="cls-2" d="M814.04,151.7H107.59c-4.85,0-9.33-2.43-11.7-6.34l-44.01-74.97c-5.01-8.27,1.45-18.48,11.7-18.48h794.47c10.25,0,16.72,10.21,11.7,18.48l-44.01,74.97c-2.37,3.92-6.85,6.34-11.7,6.34Z"/>
+      <text class="cls-1" transform="translate(103.42 94.63)"><tspan x="0" y="0">Consistent drug levels a</tspan><tspan class="cls-3" x="232.6" y="0">r</tspan><tspan x="239.84" y="0">e important to maintain and sustain e</tspan><tspan class="cls-4" x="609.17" y="0">f</tspan><tspan x="616.42" y="0">ficacy and </tspan><tspan x="228.54" y="27.6">achieve durable </tspan><tspan class="cls-3" x="388.27" y="27.6">r</tspan><tspan x="395.52" y="27.6">emission.</tspan></text>
+    </g>
+  </g>
+</svg>

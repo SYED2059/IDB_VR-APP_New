@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 675 176">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        filter: url(#drop-shadow-1);
+        font-family: Frutiger-Light, 'Frutiger 45 Light';
+        font-size: 23px;
+        font-weight: 300;
+      }
+
+      .cls-2 {
+        fill: #6d0caa;
+        opacity: .71;
+        stroke: url(#linear-gradient);
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="337.38" y1="47.73" x2="337.38" y2="128.42" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="25"/>
+      <feFlood flood-color="#3a0768" flood-opacity=".7"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path class="cls-2" d="M616.61,127.42H58.14c-3.84,0-7.38-1.91-9.25-5L14.1,63.3c-3.96-6.52,1.15-14.57,9.25-14.57h628.05c8.11,0,13.22,8.05,9.25,14.57l-34.79,59.12c-1.88,3.09-5.41,5-9.25,5Z"/>
+      <text class="cls-1" transform="translate(82.44 95.38)"><tspan x="0" y="0">Guidelines support early initiation of these therapies</tspan></text>
+    </g>
+  </g>
+</svg>
