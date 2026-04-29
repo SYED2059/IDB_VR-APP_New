@@ -387,6 +387,10 @@ public class GameManager : MonoBehaviour
         targetImage.SetActive(false);
         MainCanvas.SetActive(false);
         MainButtonCanvas.SetActive(true);
+        foreach (var item in Images)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
 
     void OnClip2Finished()
@@ -454,7 +458,25 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_3;
         videoPlayer.Play();
+
+        StartCoroutine(AfterSecVideo(5f));
     }
+
+    public GameObject TargetObjects;
+
+    IEnumerator AfterSecVideo(float time)
+    {
+        yield return new WaitForSeconds(time);
+        TargetObjects.SetActive(true);
+        StartCoroutine(HideAfterTwoSecVideo(2f));
+    }
+    IEnumerator HideAfterTwoSecVideo(float time)
+    {
+        yield return new WaitForSeconds(time);
+        TargetObjects.SetActive(false);
+    }
+
+
 
     public void ContinueFN(Button Btn)
     {
