@@ -83252,7 +83252,12 @@ MonoBehaviour:
   activeSprite: {fileID: 21300000, guid: a04309f745fbeee4f828bdaeafa616ce, type: 3}
   normalSprite: {fileID: 21300000, guid: aeed5b2a91d3e5240a7b5a938f35f863, type: 3}
   Vfx: {fileID: 3497978692297314827}
-  Images: []
+  Images:
+  - {fileID: 1846055509}
+  - {fileID: 731853322}
+  - {fileID: 1868160211}
+  - {fileID: 1991061025}
+  - {fileID: 1624833552}
 --- !u!1 &26822377
 GameObject:
   m_ObjectHideFlags: 0
@@ -86605,7 +86610,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &52514250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93694,7 +93699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &120445300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -241533,7 +241538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1099064631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -315328,7 +315333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1741985328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338406,7 +338411,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 29f77d8be5efa494a9db4d44cde38a6c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -362499,7 +362504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &1864184609948081816
 MeshRenderer:
   m_ObjectHideFlags: 0

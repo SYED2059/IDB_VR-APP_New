@@ -145,17 +145,15 @@ public class GameManager : MonoBehaviour
                 PlayerCameraBeginPoint.rotation
             );
         }
-        StartCoroutine(EnableMovementAfterDelay());
-        LogoCanvasObj.SetActive(true);
+        //StartCoroutine(EnableMovementAfterDelay());
         StartCoroutine(Wait5Seconds());
-        LogoCanvasObj.SetActive(false);
-        TargetCanvasObj.SetActive(true);
     }
     IEnumerator Wait5Seconds()
     {
-        Debug.Log("Waiting...");
         yield return new WaitForSeconds(5f);
         Debug.Log("Done after 5 seconds!");
+        LogoCanvasObj.SetActive(false);
+        TargetCanvasObj.SetActive(true);
     }
 
     public void ActiveLoop()
@@ -256,7 +254,8 @@ public class GameManager : MonoBehaviour
         startUICardLoop = false;
 
         yield return StartCoroutine(FadeVideo(1f, 0f, 0.5f));
-
+        VfxObj.SetActive(false);
+        NormalSphere.SetActive(true);
         LoopCanvasObj.SetActive(false);
         SpaceshipObj.gameObject.SetActive(false);
         TargetCanvasObj.SetActive(false);
