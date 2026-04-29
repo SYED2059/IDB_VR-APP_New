@@ -129,7 +129,7 @@ Material:
     - _Details_2_distortion_wobblyness: 10
     - _Details_2_scroll_speed: 1
     - _DstBlend: 10
-    - _DstBlendAlpha: 0
+    - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
     - _Fade_In: 1
     - _Fresnel_power: 0
@@ -164,6 +164,7 @@ Material:
     - _USE_DETAILS_2: 0
     - _USE_MANUAL_TIME: 0
     - _WorkflowMode: 1
+    - _XRMotionVectorsPass: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
@@ -177,7 +178,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Noise_tiling: {r: 3, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Speed: {r: 0, g: 1, b: 0, a: 0}
+    - _Speed: {r: 0, g: 0.15, b: 0, a: 0}
     - _Tiling: {r: 2, g: 3, b: 0, a: 0}
     - _Wormhole_colour: {r: 0, g: 0.6555747, b: 0.735849, a: 1}
   m_BuildTextureStacks: []

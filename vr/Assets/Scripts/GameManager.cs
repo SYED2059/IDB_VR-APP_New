@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject EnterButton;
     public GameObject BeginButton;
     public GameObject TargetCanvasObj;
+    public GameObject LogoCanvasObj;
     public GameObject LoopCanvasObj;
     public GameObject MainCanvas;
     public GameObject targetImage;
@@ -126,9 +127,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Begin Button Clicked");
         locomotor.SetActive(true);
-        //VfxObj.SetActive(true);
-        //Vfx.Reinit();
-        //Vfx.SendEvent("OnPlay");
+        VfxObj.SetActive(true);
+        Vfx.Reinit();
+        Vfx.SendEvent("OnPlay");
         if (SpaceshipObj && SpaceshipEntryPoint)
         {
             SpaceshipObj.SetPositionAndRotation(
@@ -145,11 +146,21 @@ public class GameManager : MonoBehaviour
             );
         }
         StartCoroutine(EnableMovementAfterDelay());
+        LogoCanvasObj.SetActive(true);
+        StartCoroutine(Wait5Seconds());
+        LogoCanvasObj.SetActive(false);
         TargetCanvasObj.SetActive(true);
+    }
+    IEnumerator Wait5Seconds()
+    {
+        Debug.Log("Waiting...");
+        yield return new WaitForSeconds(5f);
+        Debug.Log("Done after 5 seconds!");
     }
 
     public void ActiveLoop()
     {
+        LogoCanvasObj.SetActive(false);
         TargetCanvasObj.SetActive(false);
         LoopCanvasObj.SetActive(true);
         startUICardLoop = true;
@@ -310,7 +321,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
+    public Image[] Images; 
     public void TogglePlayPause(Button clickedBtn)
     {
         if (currentActive != null)
@@ -320,7 +331,11 @@ public class GameManager : MonoBehaviour
 
         clickedBtn.GetComponent<Image>().sprite = activeSprite;
         currentActive = clickedBtn;
-        targetImage.SetActive(!targetImage.activeSelf);
+        foreach (var item in Images)
+        {
+            item.gameObject.SetActive(false);
+        }
+        //targetImage.SetActive(!targetImage.activeSelf);
         if (videoPlayer.isPlaying)
             videoPlayer.Pause();
         else
