@@ -449,9 +449,30 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CallAfter2Sec());
     }
 
+    public Sprite Biologics_ActiveSprite;
+    public Sprite Biologics_InActiveSprite;
+
+    public Sprite SmallMolecules_ActiveSprite;
+    public Sprite SmallMolecules_InActiveSprite;
+
+    public Sprite Continue_ActiveSprite;
+    public Sprite Continue_InActiveSprite;
+
+
+    public Sprite AntiTNFagents_ActiveSprite;
+    public Sprite AntiTNFagents_InActiveSprite;
+
+    public Sprite SmallMoleculesDouble_ActiveSprite;
+    public Sprite SmallMoleculesDouble_InActiveSprite;
+
+    public Sprite ContinueDouble_ActiveSprite;
+    public Sprite ContinueDouble_InActiveSprite;
+
+
+
     public void BiologicsFN(Button Btn)
     {
-        Btn.interactable = false;
+        Btn.image.sprite = Biologics_InActiveSprite;
         MainButtonCanvas.SetActive(false);
         videoPlayer.Stop();
         videoPlayer.clip = Clip_2;
@@ -463,7 +484,7 @@ public class GameManager : MonoBehaviour
 
     public void SmallMoleculesFN(Button Btn)
     {
-        Btn.interactable = false;
+        Btn.image.sprite = SmallMolecules_InActiveSprite;
         MainButtonCanvas.SetActive(false);
 
         videoPlayer.Stop();
@@ -473,6 +494,18 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TriggerAtVideoTime(2f, Clip_3TargetObjects_1));
         StartCoroutine(TriggerAtVideoTime(4f, Clip_3TargetObjects_2));
         //StartCoroutine(TriggerAtVideoTime(5f, Clip_3TargetObjects_3));
+    }
+
+    public void ContinueFN(Button Btn)
+    {
+        Btn.image.sprite = Continue_InActiveSprite;
+        MainButtonCanvas.SetActive(false);
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_4;
+        videoPlayer.Play();
+        StartCoroutine(TriggerAtVideoTime(2f, Clip_4TargetObjects_1));
+        StartCoroutine(TriggerAtVideoTime(4f, Clip_4TargetObjects_2));
+        //StartCoroutine(TriggerAtVideoTime(5f, Clip_4TargetObjects_3));
     }
 
     public GameObject TargetCanvas;
@@ -538,17 +571,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void ContinueFN(Button Btn)
-    {
-        Btn.interactable = false;
-        MainButtonCanvas.SetActive(false);
-        videoPlayer.Stop();
-        videoPlayer.clip = Clip_4;
-        videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_4TargetObjects_1));
-        StartCoroutine(TriggerAtVideoTime(4f, Clip_4TargetObjects_2));
-        //StartCoroutine(TriggerAtVideoTime(5f, Clip_4TargetObjects_3));
-    }
+    
 
     public void CrohnsDiseaseFn()
     {
@@ -588,10 +611,10 @@ public class GameManager : MonoBehaviour
         MainButtonCanvas.SetActive(true);
     }
     //======================================================================================================
-
+    
     public void AntiTNFagentsFN(Button Btn)
     {
-        Btn.interactable = false;
+        Btn.image.sprite = AntiTNFagents_InActiveSprite;
         DoubleSubPanel.SetActive(false);
         videoPlayer.Stop();
         videoPlayer.clip = Clip_7;
@@ -604,7 +627,7 @@ public class GameManager : MonoBehaviour
 
     public void SmallMoleculesDoubleFN(Button Btn)
     {
-        Btn.interactable = false;
+        Btn.image.sprite = SmallMoleculesDouble_InActiveSprite;
         DoubleSubPanel.SetActive(false);
         videoPlayer.Stop();
         videoPlayer.clip = Clip_8;
@@ -616,7 +639,7 @@ public class GameManager : MonoBehaviour
 
     public void ContinueDoubleFN(Button Btn)
     {
-        Btn.interactable = false;
+        Btn.image.sprite = ContinueDouble_InActiveSprite;
         DoubleSubPanel.SetActive(false);
         videoPlayer.Stop();
         videoPlayer.clip = Clip_9;
