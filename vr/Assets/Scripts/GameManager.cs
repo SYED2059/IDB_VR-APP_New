@@ -439,8 +439,14 @@ public class GameManager : MonoBehaviour
 
     void OnClip9Finished()
     {
-        //ContinueDoubleBtn.SetActive(true);
-        OnRestartClicked();
+        ContinueDoubleBtn.SetActive(false);
+        DoubleSubPanel.SetActive(false);
+        ContinueBtn.SetActive(false);
+        NormalSphere.SetActive(false);
+        DoubleSphere.SetActive(false);
+        SpaceshipObj.gameObject.SetActive(true);
+        OnBeginClicked();
+        StartCoroutine(CallAfter2Sec());
     }
 
     public void BiologicsFN(Button Btn)
@@ -625,6 +631,21 @@ public class GameManager : MonoBehaviour
     {
         ContinueDoubleBtn.SetActive(false);
         DoubleSubPanel.SetActive(true);
+    }
+
+    public GameObject ExitButton;
+
+    IEnumerator CallAfter2Sec()
+    {
+        yield return new WaitForSeconds(2f);
+        OnRestartClicked();
+        EnterButton.SetActive(false);
+        ExitButton.SetActive(true);
+    }
+
+    public void ExitBtnFN()
+    {
+        Application.Quit();
     }
     //======================================================================================================
 }
