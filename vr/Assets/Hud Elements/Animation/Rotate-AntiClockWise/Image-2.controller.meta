@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 592eaca08283b5c4986c2c331a1d2857
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 290636
+  packageName: SciFi Hud Circle Animations-tech elements
+  packageVersion: 1.0
+  assetPath: Assets/Hud Elements/Animation/Rotate-AntiClockWise/Image-2.controller
+  uploadId: 678330

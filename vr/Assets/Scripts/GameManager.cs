@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public GameObject DoubleSphere;
     public GameObject DoublePanel;
     public GameObject DoubleSubPanel;
+    public GameObject PodCanvas;
 
     [Header("UI Card Animation")]
     public GameObject[] uiCards;
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
         dir.y = 0; 
 
         PlayerCameraObj.rotation = Quaternion.LookRotation(dir);
+        PodCanvas.SetActive(true);
     }
 
     public void OnEnterClicked()
@@ -110,6 +112,7 @@ public class GameManager : MonoBehaviour
         }
         StartCoroutine(EnableMovementAfterDelay());
         EnterButton.SetActive(false);
+        PodCanvas.SetActive(false);
 
     }
 
@@ -661,6 +664,7 @@ public class GameManager : MonoBehaviour
     IEnumerator CallAfter2Sec()
     {
         yield return new WaitForSeconds(2f);
+        PodCanvas.SetActive(true);
         OnRestartClicked();
         EnterButton.SetActive(false);
         ExitButton.SetActive(true);

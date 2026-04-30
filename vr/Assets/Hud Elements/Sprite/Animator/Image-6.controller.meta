@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ab2fe288bff3f7047895031c36588ac1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 290636
+  packageName: SciFi Hud Circle Animations-tech elements
+  packageVersion: 1.0
+  assetPath: Assets/Hud Elements/Sprite/Animator/Image-6.controller
+  uploadId: 678330

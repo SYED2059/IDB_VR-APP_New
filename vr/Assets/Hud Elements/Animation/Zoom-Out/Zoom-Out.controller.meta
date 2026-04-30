@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 57b75ac84c29af541b329be51b6f51bd
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 290636
+  packageName: SciFi Hud Circle Animations-tech elements
+  packageVersion: 1.0
+  assetPath: Assets/Hud Elements/Animation/Zoom-Out/Zoom-Out.controller
+  uploadId: 678330
