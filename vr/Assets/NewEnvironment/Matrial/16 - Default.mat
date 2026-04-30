@@ -27,6 +27,7 @@ Material:
   m_ValidKeywords:
   - _CLEARCOAT
   - _EMISSION
+  - _OCCLUSIONMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
@@ -41,7 +42,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: e315ba53b2ef8421cb1d62fb5d7d21a2, type: 3}
+        m_Texture: {fileID: 2800000, guid: ed9994e5276a84c299ed1921c05f49a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -65,7 +66,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: e315ba53b2ef8421cb1d62fb5d7d21a2, type: 3}
+        m_Texture: {fileID: 2800000, guid: ed9994e5276a84c299ed1921c05f49a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -77,7 +78,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e3ef5e0e4f18445b892aa831d01f09f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
