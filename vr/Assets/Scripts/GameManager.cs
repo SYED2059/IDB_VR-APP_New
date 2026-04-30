@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.XR;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -475,6 +476,7 @@ public class GameManager : MonoBehaviour
 
     public void BiologicsFN(Button Btn)
     {
+        Btn.interactable = false;
         Btn.image.sprite = Biologics_InActiveSprite;
         MainButtonCanvas.SetActive(false);
         videoPlayer.Stop();
@@ -487,6 +489,7 @@ public class GameManager : MonoBehaviour
 
     public void SmallMoleculesFN(Button Btn)
     {
+        Btn.interactable = false;
         Btn.image.sprite = SmallMolecules_InActiveSprite;
         MainButtonCanvas.SetActive(false);
 
@@ -501,6 +504,7 @@ public class GameManager : MonoBehaviour
 
     public void ContinueFN(Button Btn)
     {
+        Btn.interactable = false;
         Btn.image.sprite = Continue_InActiveSprite;
         MainButtonCanvas.SetActive(false);
         videoPlayer.Stop();
@@ -617,6 +621,7 @@ public class GameManager : MonoBehaviour
     
     public void AntiTNFagentsFN(Button Btn)
     {
+        Btn.interactable = false;
         Btn.image.sprite = AntiTNFagents_InActiveSprite;
         DoubleSubPanel.SetActive(false);
         videoPlayer.Stop();
@@ -630,6 +635,7 @@ public class GameManager : MonoBehaviour
 
     public void SmallMoleculesDoubleFN(Button Btn)
     {
+        Btn.interactable = false;
         Btn.image.sprite = SmallMoleculesDouble_InActiveSprite;
         DoubleSubPanel.SetActive(false);
         videoPlayer.Stop();
@@ -642,6 +648,7 @@ public class GameManager : MonoBehaviour
 
     public void ContinueDoubleFN(Button Btn)
     {
+        Btn.interactable = false;
         Btn.image.sprite = ContinueDouble_InActiveSprite;
         DoubleSubPanel.SetActive(false);
         videoPlayer.Stop();
@@ -672,7 +679,7 @@ public class GameManager : MonoBehaviour
 
     public void ExitBtnFN()
     {
-        Application.Quit();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     //======================================================================================================
 }
