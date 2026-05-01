@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public AudioManager audioManager;
     [Header("Transforms")]
     public Transform SpaceshipObj;
     public Transform PlayerCameraObj;
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     public GameObject LogoCanvasObj;
     public GameObject LoopCanvasObj;
     public GameObject MainCanvas;
+    public GameObject MainPanel;
     public GameObject targetImage;
     public GameObject MainButtonCanvas;
     public GameObject ContinueBtn;
@@ -94,8 +96,9 @@ public class GameManager : MonoBehaviour
 
     public void OnEnterClicked()
     {
-        Debug.Log("Enter Button Clicked");
 
+        Debug.Log("Enter Button Clicked");
+        audioManager.PlayEnterMusic();
         if (SpaceshipObj && SpaceshipEntryPoint)
         {
             SpaceshipObj.SetPositionAndRotation(
@@ -129,6 +132,7 @@ public class GameManager : MonoBehaviour
 
     public void OnBeginClicked()
     {
+        audioManager.PlayClick();
         Debug.Log("Begin Button Clicked");
         locomotor.SetActive(true);
         VfxObj.SetActive(true);
@@ -162,6 +166,7 @@ public class GameManager : MonoBehaviour
 
     public void ActiveLoop()
     {
+        audioManager.PlayClick();
         LogoCanvasObj.SetActive(false);
         TargetCanvasObj.SetActive(false);
         LoopCanvasObj.SetActive(true);
@@ -264,6 +269,7 @@ public class GameManager : MonoBehaviour
         SpaceshipObj.gameObject.SetActive(false);
         TargetCanvasObj.SetActive(false);
         MainCanvas.SetActive(true);
+        MainPanel.SetActive(true);
 
         videoPlayer.Stop();
         videoPlayer.clip = Clip_1;
@@ -298,6 +304,7 @@ public class GameManager : MonoBehaviour
 
     public void OnRestartClicked()
     {
+        audioManager.PlayClick();
         Debug.Log("Restart Button Clicked");
         startUICardLoop = false;
         EnterButton.SetActive(true);
@@ -327,6 +334,8 @@ public class GameManager : MonoBehaviour
     public Image[] Images; 
     public void TogglePlayPause(Button clickedBtn)
     {
+        audioManager.PlayClick();
+
         if (currentActive != null)
         {
             currentActive.GetComponent<Image>().sprite = normalSprite;
@@ -476,6 +485,7 @@ public class GameManager : MonoBehaviour
 
     public void BiologicsFN(Button Btn)
     {
+        audioManager.PlayClick();
         Btn.interactable = false;
         Btn.image.sprite = Biologics_InActiveSprite;
         MainButtonCanvas.SetActive(false);
@@ -489,6 +499,7 @@ public class GameManager : MonoBehaviour
 
     public void SmallMoleculesFN(Button Btn)
     {
+        audioManager.PlayClick();
         Btn.interactable = false;
         Btn.image.sprite = SmallMolecules_InActiveSprite;
         MainButtonCanvas.SetActive(false);
@@ -504,6 +515,7 @@ public class GameManager : MonoBehaviour
 
     public void ContinueFN(Button Btn)
     {
+        audioManager.PlayClick();
         Btn.interactable = false;
         Btn.image.sprite = Continue_InActiveSprite;
         MainButtonCanvas.SetActive(false);
@@ -582,6 +594,7 @@ public class GameManager : MonoBehaviour
 
     public void CrohnsDiseaseFn()
     {
+        audioManager.PlayClick();
         NormalSphere.SetActive(true);
         DoubleSphere.SetActive(false);
         DoublePanel.SetActive(false);
@@ -598,6 +611,7 @@ public class GameManager : MonoBehaviour
 
     public void UlcerativeColitisFn()
     {
+        audioManager.PlayClick();
         NormalSphere.SetActive(true);
         DoubleSphere.SetActive(false);
         DoublePanel.SetActive(false);
@@ -614,6 +628,7 @@ public class GameManager : MonoBehaviour
 
     public void ContinueBtnFN()
     {
+        audioManager.PlayClick();
         ContinueBtn.SetActive(false);
         MainButtonCanvas.SetActive(true);
     }
@@ -621,6 +636,7 @@ public class GameManager : MonoBehaviour
     
     public void AntiTNFagentsFN(Button Btn)
     {
+        audioManager.PlayClick();
         Btn.interactable = false;
         Btn.image.sprite = AntiTNFagents_InActiveSprite;
         DoubleSubPanel.SetActive(false);
@@ -635,6 +651,7 @@ public class GameManager : MonoBehaviour
 
     public void SmallMoleculesDoubleFN(Button Btn)
     {
+        audioManager.PlayClick();
         Btn.interactable = false;
         Btn.image.sprite = SmallMoleculesDouble_InActiveSprite;
         DoubleSubPanel.SetActive(false);
@@ -648,6 +665,7 @@ public class GameManager : MonoBehaviour
 
     public void ContinueDoubleFN(Button Btn)
     {
+        audioManager.PlayClick();
         Btn.interactable = false;
         Btn.image.sprite = ContinueDouble_InActiveSprite;
         DoubleSubPanel.SetActive(false);
@@ -662,6 +680,7 @@ public class GameManager : MonoBehaviour
 
     public void ContinueDoubleBtnFN()
     {
+        audioManager.PlayClick();
         ContinueDoubleBtn.SetActive(false);
         DoubleSubPanel.SetActive(true);
     }
@@ -680,17 +699,20 @@ public class GameManager : MonoBehaviour
 
     public void ExitBtnFN()
     {
+        audioManager.PlayClick();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     //======================================================================================================
 
     public void RestartFN()
     {
+        audioManager.PlayClick();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void RefereneFN()
     {
+        audioManager.PlayClick();
         Time.timeScale = 0f;
 
         ReferenceImage.gameObject.SetActive(true);
@@ -704,6 +726,7 @@ public class GameManager : MonoBehaviour
 
     public void ExitReference()
     {
+        audioManager.PlayClick();
         Time.timeScale = 1f;
 
         ReferenceImage.gameObject.SetActive(false);
