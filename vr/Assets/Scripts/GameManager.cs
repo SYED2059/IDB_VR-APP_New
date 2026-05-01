@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public AudioManager audioManager;
+
     [Header("Transforms")]
     public Transform SpaceshipObj;
     public Transform PlayerCameraObj;
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour
     public GameObject DoublePanel;
     public GameObject DoubleSubPanel;
     public GameObject PodCanvas;
+    public GameObject ExitButton;
+
 
     [Header("UI Card Animation")]
     public GameObject[] uiCards;
@@ -75,6 +78,11 @@ public class GameManager : MonoBehaviour
     private Button currentActive;
 
     public VisualEffect Vfx;
+
+    public Image ReferenceImage;
+    public Image[] Images;
+
+
 
     void Start()
     {
@@ -331,7 +339,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    public Image[] Images; 
     public void TogglePlayPause(Button clickedBtn)
     {
         audioManager.PlayClick();
@@ -685,8 +692,6 @@ public class GameManager : MonoBehaviour
         DoubleSubPanel.SetActive(true);
     }
 
-    public GameObject ExitButton;
-    public Image ReferenceImage;
 
     IEnumerator CallAfter2Sec()
     {
