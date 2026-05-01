@@ -667,6 +667,7 @@ public class GameManager : MonoBehaviour
     }
 
     public GameObject ExitButton;
+    public Image ReferenceImage;
 
     IEnumerator CallAfter2Sec()
     {
@@ -682,4 +683,36 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     //======================================================================================================
+
+    public void RestartFN()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void RefereneFN()
+    {
+        Time.timeScale = 0f;
+
+        ReferenceImage.gameObject.SetActive(true);
+
+        Vfx.Stop();
+
+        videoPlayer.Pause();
+        DoubleVideoPlayer_1.Pause();
+        DoubleVideoPlayer_2.Pause();
+    }
+
+    public void ExitReference()
+    {
+        Time.timeScale = 1f;
+
+        ReferenceImage.gameObject.SetActive(false);
+
+        Vfx.Play();
+
+        videoPlayer.Play();
+        DoubleVideoPlayer_1.Play();
+        DoubleVideoPlayer_2.Play();
+    }
+
 }
