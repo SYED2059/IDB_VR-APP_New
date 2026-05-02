@@ -44,16 +44,38 @@ public class GameManager : MonoBehaviour
     public GameObject ExitButton;
 
 
-    [Header("UI Card Animation")]
-    public GameObject[] uiCards;
-    public bool startUICardLoop = false;
-    public float cardStartDistance = 50f;
-    public float cardCenterDistance = 4f;
-    public float cardEndDistance = -50f;
-    public float enterDuration = 3f;
-    public float stayDuration = 0.5f;
-    public float exitDuration = 1f;
-    public float delayBetweenCards = 0.1f;
+    //[Header("UI Card Animation")]
+    //public GameObject[] uiCards;
+    //public bool startUICardLoop = false;
+    //public float cardStartDistance = 50f;
+    //public float cardCenterDistance = 4f;
+    //public float cardEndDistance = -50f;
+    //public float enterDuration = 3f;
+    //public float stayDuration = 0.5f;
+    //public float exitDuration = 1f;
+    //public float delayBetweenCards = 0.1f;
+    [Header("UI Cards")]
+    [SerializeField] private GameObject[] uiCards;
+
+    [Header("Loop Control")]
+    [SerializeField] private bool startUICardLoop = true;
+
+    [Header("Distances (Z axis movement)")]
+    [SerializeField] private float cardStartDistance = 5f;
+    [SerializeField] private float cardCenterDistance = 2f;
+    [SerializeField] private float cardEndDistance = 1f;
+
+    [Header("Timing")]
+    [SerializeField] private float enterDuration = 1.0f;
+    [SerializeField] private float stayDuration = 2.0f;
+    [SerializeField] private float exitDuration = 1.0f;
+    [SerializeField] private float delayBetweenCards = 0.5f;
+
+    [Header("Side Movement")]
+    [SerializeField] private float sideOffset = 80f;
+
+    private Coroutine uiLoopCoroutine;
+
 
     [Header("VideoPlayer")]
     public VideoPlayer videoPlayer;
@@ -77,6 +99,9 @@ public class GameManager : MonoBehaviour
     public VideoClip Clip_12;
     public VideoClip Clip_13;
 
+    public VideoClip DoubleVideoClip;
+
+
 
 
     [Header("ButtonActiveVariable")]
@@ -96,7 +121,13 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(Align());
         videoPlayer.waitForFirstFrame = true;
+        DoubleVideoPlayer_1.waitForFirstFrame = true;
+        DoubleVideoPlayer_2.waitForFirstFrame = true;
+
         videoPlayer.loopPointReached += OnVideoFinished;
+        DoubleVideoPlayer_1.loopPointReached += OnDoublrVideoFinished;
+        DoubleVideoPlayer_2.loopPointReached += OnDoublrVideoFinished;
+
     }
 
     IEnumerator Align()
@@ -192,85 +223,205 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ShowUICardsLoop());
     }
 
+    //IEnumerator ShowUICardsLoop()
+    //{
+    //    float sideOffset = 80f;
+
+    //    while (startUICardLoop)
+    //    {
+    //        for (int i = 0; i < uiCards.Length; i++)
+    //        {
+    //            GameObject currentCard = uiCards[i];
+
+    //            if (currentCard == null)
+    //                continue;
+
+    //            currentCard.SetActive(true);
+
+    //            CanvasGroup cg = currentCard.GetComponent<CanvasGroup>();
+    //            if (cg == null)
+    //                cg = currentCard.AddComponent<CanvasGroup>();
+
+    //            cg.alpha = 0f;
+
+    //            bool goRight = (i % 2 == 0);
+
+    //            Vector3 startLocalPos = new Vector3(0f, 0f, cardStartDistance);
+    //            Vector3 centerLocalPos = new Vector3(0f, 0f, cardCenterDistance);
+
+    //            Vector3 endLocalPos = goRight
+    //                ? new Vector3(sideOffset, 0f, cardEndDistance)
+    //                : new Vector3(-sideOffset, 0f, cardEndDistance);
+
+    //            currentCard.transform.localPosition = startLocalPos;
+
+    //            float enterTimer = 0f;
+    //            while (enterTimer < enterDuration)
+    //            {
+    //                enterTimer += Time.deltaTime;
+    //                float t = enterTimer / enterDuration;
+
+    //                currentCard.transform.localPosition = Vector3.Lerp(
+    //                    startLocalPos,
+    //                    centerLocalPos,
+    //                    t
+    //                );
+
+    //                cg.alpha = Mathf.Lerp(0f, 1f, t);
+
+    //                yield return null;
+    //            }
+
+    //            currentCard.transform.localPosition = centerLocalPos;
+    //            cg.alpha = 1f;
+
+    //            yield return new WaitForSeconds(stayDuration);
+
+    //            float exitTimer = 0f;
+    //            while (exitTimer < exitDuration)
+    //            {
+    //                exitTimer += Time.deltaTime;
+    //                float t = exitTimer / exitDuration;
+
+    //                float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
+    //                currentCard.transform.localPosition = Vector3.Lerp(
+    //                    centerLocalPos,
+    //                    endLocalPos,
+    //                    smoothT
+    //                );
+
+    //                cg.alpha = Mathf.Lerp(1f, 0f, t);
+
+    //                yield return null;
+    //            }
+
+    //            currentCard.SetActive(false);
+
+    //            yield return new WaitForSeconds(delayBetweenCards);
+    //        }
+    //    }
+    //}
+
     IEnumerator ShowUICardsLoop()
     {
-        float sideOffset = 80f;
-
         while (startUICardLoop)
         {
-            for (int i = 0; i < uiCards.Length; i++)
+            int i = 0;
+
+            while (i < uiCards.Length)
             {
-                GameObject currentCard = uiCards[i];
+                GameObject cardA = uiCards[i];
+                GameObject cardB = (i + 1 < uiCards.Length) ? uiCards[i + 1] : null;
 
-                if (currentCard == null)
-                    continue;
+                bool isPair = (cardB != null);
 
-                currentCard.SetActive(true);
+                SetupCard(cardA, out CanvasGroup cgA);
+                CanvasGroup cgB = null;
 
-                CanvasGroup cg = currentCard.GetComponent<CanvasGroup>();
-                if (cg == null)
-                    cg = currentCard.AddComponent<CanvasGroup>();
+                if (isPair)
+                    SetupCard(cardB, out cgB);
 
-                cg.alpha = 0f;
+                Vector3 startPos = new Vector3(0f, 0f, cardStartDistance);
+                Vector3 centerPos = new Vector3(0f, 0f, cardCenterDistance);
 
-                bool goRight = (i % 2 == 0);
+                Vector3 endPosA, endPosB = Vector3.zero;
 
-                Vector3 startLocalPos = new Vector3(0f, 0f, cardStartDistance);
-                Vector3 centerLocalPos = new Vector3(0f, 0f, cardCenterDistance);
+                if (isPair)
+                {
+                    endPosA = new Vector3(-sideOffset, 0f, cardEndDistance);
+                    endPosB = new Vector3(sideOffset, 0f, cardEndDistance);
+                }
+                else
+                {
+                    bool goRight = (i % 2 == 0);
+                    endPosA = goRight
+                        ? new Vector3(sideOffset, 0f, cardEndDistance)
+                        : new Vector3(-sideOffset, 0f, cardEndDistance);
+                }
 
-                Vector3 endLocalPos = goRight
-                    ? new Vector3(sideOffset, 0f, cardEndDistance)
-                    : new Vector3(-sideOffset, 0f, cardEndDistance);
+                cardA.transform.localPosition = startPos;
+                if (isPair) cardB.transform.localPosition = startPos;
 
-                currentCard.transform.localPosition = startLocalPos;
-
+                // 🔹 ENTER
                 float enterTimer = 0f;
                 while (enterTimer < enterDuration)
                 {
                     enterTimer += Time.deltaTime;
                     float t = enterTimer / enterDuration;
 
-                    currentCard.transform.localPosition = Vector3.Lerp(
-                        startLocalPos,
-                        centerLocalPos,
-                        t
-                    );
-
-                    cg.alpha = Mathf.Lerp(0f, 1f, t);
+                    AnimateCard(cardA, cgA, startPos, centerPos, t);
+                    if (isPair) AnimateCard(cardB, cgB, startPos, centerPos, t);
 
                     yield return null;
                 }
 
-                currentCard.transform.localPosition = centerLocalPos;
-                cg.alpha = 1f;
+                SetFinal(cardA, cgA, centerPos);
+                if (isPair) SetFinal(cardB, cgB, centerPos);
 
                 yield return new WaitForSeconds(stayDuration);
 
+                // 🔹 EXIT
                 float exitTimer = 0f;
                 while (exitTimer < exitDuration)
                 {
                     exitTimer += Time.deltaTime;
                     float t = exitTimer / exitDuration;
-
                     float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
-                    currentCard.transform.localPosition = Vector3.Lerp(
-                        centerLocalPos,
-                        endLocalPos,
-                        smoothT
-                    );
-
-                    cg.alpha = Mathf.Lerp(1f, 0f, t);
+                    AnimateCard(cardA, cgA, centerPos, endPosA, smoothT, true);
+                    if (isPair) AnimateCard(cardB, cgB, centerPos, endPosB, smoothT, true);
 
                     yield return null;
                 }
 
-                currentCard.SetActive(false);
+                if (cardA != null) cardA.SetActive(false);
+                if (isPair && cardB != null) cardB.SetActive(false);
 
                 yield return new WaitForSeconds(delayBetweenCards);
+
+                i += isPair ? 2 : 1;
             }
         }
     }
+
+    // 🔧 Helper Methods
+
+    void SetupCard(GameObject card, out CanvasGroup cg)
+    {
+        if (card == null)
+        {
+            cg = null;
+            return;
+        }
+
+        card.SetActive(true);
+
+        cg = card.GetComponent<CanvasGroup>();
+        if (cg == null)
+            cg = card.AddComponent<CanvasGroup>();
+
+        cg.alpha = 0f;
+    }
+
+    void AnimateCard(GameObject card, CanvasGroup cg, Vector3 from, Vector3 to, float t, bool fadeOut = false)
+    {
+        if (card == null || cg == null) return;
+
+        card.transform.localPosition = Vector3.Lerp(from, to, t);
+        cg.alpha = fadeOut ? Mathf.Lerp(1f, 0f, t) : Mathf.Lerp(0f, 1f, t);
+    }
+
+    void SetFinal(GameObject card, CanvasGroup cg, Vector3 pos)
+    {
+        if (card == null || cg == null) return;
+
+        card.transform.localPosition = pos;
+        cg.alpha = 1f;
+    }
+
+
+
 
     public IEnumerator StopLoopAfterTime(float time)
     {
@@ -364,17 +515,17 @@ public class GameManager : MonoBehaviour
             item.gameObject.SetActive(false);
         }
         //targetImage.SetActive(!targetImage.activeSelf);
-        if (videoPlayer.isPlaying)
-            videoPlayer.Pause();
-        else
-            videoPlayer.Play();
+        //if (videoPlayer.isPlaying)
+        //    videoPlayer.Pause();
+        //else
+        //    videoPlayer.Play();
     }
 
     void OnVideoFinished(VideoPlayer vp)
     {
         if (vp.clip == Clip_1)
         {
-            OnClip1Finished();
+            StartCoroutine(OnClip1Finished());
         }
         if (vp.clip == Clip_2)
         {
@@ -408,15 +559,39 @@ public class GameManager : MonoBehaviour
         {
             OnClip9Finished();
         }
+
+    }
+    void OnDoublrVideoFinished(VideoPlayer vp)
+    {
+        //if (vp.clip == DoubleVideoClip)
+        //{
+        DoublePanel.SetActive(false);
+        DoubleVideoPlayer_1.gameObject.SetActive(false);
+        DoubleVideoPlayer_2.gameObject.SetActive(false);
+        DoubleSphere.SetActive(false);
+        NormalSphere.SetActive(true);
+        videoPlayer.gameObject.SetActive(true);
+
+        videoPlayer.Stop();
+        videoPlayer.clip = Clip_11;
+        videoPlayer.Play();
+        DoubleSubPanel.SetActive(true);
+        //}
+
     }
 
-    void OnClip1Finished()
+    IEnumerator OnClip1Finished()
     {
+        foreach (var item in Images)
+        {
+            item.gameObject.SetActive(false);
+        }
         videoPlayer.clip = Clip_10;
         videoPlayer.Play();
         Debug.Log("Clip 1 Finished!");
         targetImage.SetActive(false);
         MainCanvas.SetActive(false);
+        yield return new WaitForSeconds(2f);
         MainButtonCanvas.SetActive(true);
         foreach (var item in Images)
         {
@@ -534,9 +709,9 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_2;
         videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(1f, Clip_2TargetObjects_1,8f));
-        StartCoroutine(TriggerAtVideoTime(17f, Clip_2TargetObjects_2,8f));
-        StartCoroutine(TriggerAtVideoTime(39f, Clip_2TargetObjects_3,8f));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_2TargetObjects_1, 8f));
+        StartCoroutine(TriggerAtVideoTime(17f, Clip_2TargetObjects_2, 8f));
+        StartCoroutine(TriggerAtVideoTime(39f, Clip_2TargetObjects_3, 8f));
     }
 
     public void SmallMoleculesFN(Button Btn)
@@ -550,8 +725,8 @@ public class GameManager : MonoBehaviour
         videoPlayer.clip = Clip_3;
         videoPlayer.Play();
 
-        StartCoroutine(TriggerAtVideoTime(1f, Clip_3TargetObjects_1,8f));
-        StartCoroutine(TriggerAtVideoTime(17f, Clip_3TargetObjects_2,8f));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_3TargetObjects_1, 8f));
+        StartCoroutine(TriggerAtVideoTime(17f, Clip_3TargetObjects_2, 8f));
         //StartCoroutine(TriggerAtVideoTime(5f, Clip_3TargetObjects_3));
     }
 
@@ -564,10 +739,10 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_4;
         videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(1f, Clip_4TargetObjects_1,6f));
-        StartCoroutine(TriggerAtVideoTime(7f, Clip_4TargetObjects_2,10f));
-        StartCoroutine(TriggerAtVideoTime(17f, Clip_4TargetObjects_3,8f));
-        StartCoroutine(TriggerAtVideoTime(19f, Clip_4TargetObjects_4,17f));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_4TargetObjects_1, 6f));
+        StartCoroutine(TriggerAtVideoTime(7f, Clip_4TargetObjects_2, 10f));
+        StartCoroutine(TriggerAtVideoTime(17f, Clip_4TargetObjects_3, 8f));
+        StartCoroutine(TriggerAtVideoTime(19f, Clip_4TargetObjects_4, 17f));
 
     }
 
@@ -601,12 +776,12 @@ public class GameManager : MonoBehaviour
     public GameObject Clip_7TargetObjects_3;
 
 
-    
 
 
 
 
-    IEnumerator TriggerAtVideoTime(double targetTime, GameObject targetObject,float Timer)
+
+    IEnumerator TriggerAtVideoTime(double targetTime, GameObject targetObject, float Timer)
     {
         // wait until video actually starts
         yield return new WaitUntil(() => videoPlayer.isPlaying);
@@ -644,7 +819,7 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_5;
         videoPlayer.Play();
-        
+
 
     }
 
@@ -660,7 +835,7 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_6;
         videoPlayer.Play();
-       
+
     }
 
     public void ContinueBtnFN()
