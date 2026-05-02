@@ -71,6 +71,14 @@ public class GameManager : MonoBehaviour
     public VideoClip Clip_8;
     public VideoClip Clip_9;
 
+    public VideoClip Clip_10;
+    public VideoClip Clip_11;
+
+    public VideoClip Clip_12;
+    public VideoClip Clip_13;
+
+
+
     [Header("ButtonActiveVariable")]
     public Button[] buttons;
     public Sprite activeSprite;
@@ -96,7 +104,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         Vector3 dir = (SpaceshipObj.position - PlayerCameraObj.position);
-        dir.y = 0; 
+        dir.y = 0;
 
         PlayerCameraObj.rotation = Quaternion.LookRotation(dir);
         PodCanvas.SetActive(true);
@@ -104,9 +112,8 @@ public class GameManager : MonoBehaviour
 
     public void OnEnterClicked()
     {
-
+        audioManager.PlayClick();
         Debug.Log("Enter Button Clicked");
-        audioManager.PlayEnterMusic();
         if (SpaceshipObj && SpaceshipEntryPoint)
         {
             SpaceshipObj.SetPositionAndRotation(
@@ -125,7 +132,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(EnableMovementAfterDelay());
         EnterButton.SetActive(false);
         PodCanvas.SetActive(false);
-
     }
 
     IEnumerator EnableMovementAfterDelay()
@@ -141,6 +147,7 @@ public class GameManager : MonoBehaviour
     public void OnBeginClicked()
     {
         audioManager.PlayClick();
+        audioManager.PlayEnterMusic();
         Debug.Log("Begin Button Clicked");
         locomotor.SetActive(true);
         VfxObj.SetActive(true);
@@ -389,11 +396,11 @@ public class GameManager : MonoBehaviour
         }
         if (vp.clip == Clip_7)
         {
-            OnClip7Finished();
+            StartCoroutine(OnClip7Finished());
         }
         if (vp.clip == Clip_8)
         {
-            OnClip8Finished();
+            StartCoroutine(OnClip8Finished());
         }
         if (vp.clip == Clip_9)
         {
@@ -403,6 +410,8 @@ public class GameManager : MonoBehaviour
 
     void OnClip1Finished()
     {
+        videoPlayer.clip = Clip_10;
+        videoPlayer.Play();
         Debug.Log("Clip 1 Finished!");
         targetImage.SetActive(false);
         MainCanvas.SetActive(false);
@@ -439,21 +448,45 @@ public class GameManager : MonoBehaviour
 
     void OnClip5Finished()
     {
+        videoPlayer.clip = Clip_11;
+        videoPlayer.Play();
         DoubleSubPanel.SetActive(true);
     }
 
     void OnClip6Finished()
     {
+        videoPlayer.clip = Clip_11;
+        videoPlayer.Play();
         DoubleSubPanel.SetActive(true);
     }
 
-    void OnClip7Finished()
+    IEnumerator OnClip7Finished()
     {
+        NormalSphere.SetActive(false);
+        VfxObj.SetActive(true);
+        Vfx.Reinit();
+        Vfx.SendEvent("OnPlay");
+        yield return new WaitForSeconds(2f);
+        VfxObj.SetActive(false);
+        NormalSphere.SetActive(true);
+        videoPlayer.clip = Clip_12;
+        videoPlayer.Play();
+        //After 45 to 47
         ContinueDoubleBtn.SetActive(true);
     }
 
-    void OnClip8Finished()
+    IEnumerator OnClip8Finished()
     {
+        NormalSphere.SetActive(false);
+        VfxObj.SetActive(true);
+        Vfx.Reinit();
+        Vfx.SendEvent("OnPlay");
+        yield return new WaitForSeconds(2f);
+        VfxObj.SetActive(false);
+        NormalSphere.SetActive(true);
+        videoPlayer.clip = Clip_13;
+        videoPlayer.Play();
+        //After 51
         ContinueDoubleBtn.SetActive(true);
     }
 
@@ -597,7 +630,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    
+
 
     public void CrohnsDiseaseFn()
     {
@@ -640,7 +673,7 @@ public class GameManager : MonoBehaviour
         MainButtonCanvas.SetActive(true);
     }
     //======================================================================================================
-    
+
     public void AntiTNFagentsFN(Button Btn)
     {
         audioManager.PlayClick();

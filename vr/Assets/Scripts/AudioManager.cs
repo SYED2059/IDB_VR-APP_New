@@ -89,7 +89,7 @@ public class AudioManager : MonoBehaviour
 
         if (gameManager != null)
         {
-            gameManager.BeginButton.SetActive(true);
+            //gameManager.BeginButton.SetActive(true);
         }
     }
 }

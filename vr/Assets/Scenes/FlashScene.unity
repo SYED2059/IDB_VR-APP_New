@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlashManager
   FlashvideoPlayer: {fileID: 8570015828710197757}
-  FlashClip: {fileID: 32900000, guid: 9aec0b959d2a84d6d8bd192d332f5bbd, type: 3}
+  FlashClip: {fileID: 32900000, guid: 55b244cf960ea4014937652fe9a05e4b, type: 3}
 --- !u!1 &1419525470
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,8 +271,8 @@ Transform:
   m_GameObject: {fileID: 1419525470}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 821.4, y: -0.1, z: 3747.1}
-  m_LocalScale: {x: 6.7062325, y: 6.60242, z: 0.0547}
+  m_LocalPosition: {x: 821.4813, y: 0.03, z: 3747.1}
+  m_LocalScale: {x: 14.020255, y: 5.716634, z: 0.0547}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -23145,7 +23145,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9142564140650535659}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 9aec0b959d2a84d6d8bd192d332f5bbd, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 55b244cf960ea4014937652fe9a05e4b, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
