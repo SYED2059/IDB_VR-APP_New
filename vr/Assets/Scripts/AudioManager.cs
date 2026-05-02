@@ -13,6 +13,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip buttonClick;
     public AudioClip enterSound;
     public AudioClip ambientMusic;
+    public AudioClip LogoSound;
+    public AudioClip TargetSound;
+    public AudioClip TargetLoopSound;
 
     private Coroutine musicCoroutine;
 
@@ -89,7 +92,89 @@ public class AudioManager : MonoBehaviour
 
         if (gameManager != null)
         {
-            //gameManager.BeginButton.SetActive(true);
+            gameManager.BeginButton.SetActive(true);
         }
+    }
+
+
+    public void PlayLogoMusic()
+    {
+        if (musicSource == null || LogoSound == null)
+        {
+            Debug.LogError("Music source or clip missing");
+            return;
+        }
+
+        if (musicCoroutine != null)
+            StopCoroutine(musicCoroutine);
+
+        musicSource.clip = LogoSound;
+        musicSource.loop = false;
+        musicSource.Play();
+
+        musicCoroutine = StartCoroutine(WaitForLogoMusicEnd());
+    }
+
+    IEnumerator WaitForLogoMusicEnd()
+    {
+        yield return new WaitForSeconds(musicSource.clip.length);
+
+        Debug.Log("EnterMusic finished");
+
+        if (gameManager != null)
+        {
+            gameManager.LogoCanvasObj.SetActive(false);
+            gameManager.StartCoroutine(gameManager.Wait1Seconds());
+        }
+    }
+
+    public void PlayTargetMusic()
+    {
+        if (musicSource == null || TargetSound == null)
+        {
+            Debug.LogError("Music source or clip missing");
+            return;
+        }
+
+        if (musicCoroutine != null)
+            StopCoroutine(musicCoroutine);
+
+        musicSource.clip = TargetSound;
+        musicSource.loop = false;
+        musicSource.Play();
+        musicCoroutine = StartCoroutine(WaitForTargetMusicEnd());
+    }
+
+    IEnumerator WaitForTargetMusicEnd()
+    {
+        yield return new WaitForSeconds(musicSource.clip.length);
+
+        Debug.Log("EnterMusic finished");
+    }
+
+    public void PlayTargetLoopMusic()
+    {
+        if (musicSource == null || TargetLoopSound == null)
+        {
+            Debug.LogError("Music source or clip missing");
+            return;
+        }
+
+        if (musicCoroutine != null)
+            StopCoroutine(musicCoroutine);
+
+        musicSource.clip = TargetLoopSound;
+        musicSource.loop = false;
+        musicSource.Play();
+
+        musicCoroutine = StartCoroutine(WaitForTargetLoopMusicEnd());
+    }
+
+    IEnumerator WaitForTargetLoopMusicEnd()
+    {
+        yield return new WaitForSeconds(musicSource.clip.length);
+
+        Debug.Log("EnterMusic finished");
+        gameManager.StartCoroutine(gameManager.StopLoopAfterTime(1f));
     }
 }

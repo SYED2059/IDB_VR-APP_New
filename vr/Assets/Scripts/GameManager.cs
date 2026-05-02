@@ -113,6 +113,7 @@ public class GameManager : MonoBehaviour
     public void OnEnterClicked()
     {
         audioManager.PlayClick();
+        audioManager.PlayEnterMusic();
         Debug.Log("Enter Button Clicked");
         if (SpaceshipObj && SpaceshipEntryPoint)
         {
@@ -147,7 +148,7 @@ public class GameManager : MonoBehaviour
     public void OnBeginClicked()
     {
         audioManager.PlayClick();
-        audioManager.PlayEnterMusic();
+        audioManager.PlayLogoMusic();
         Debug.Log("Begin Button Clicked");
         locomotor.SetActive(true);
         VfxObj.SetActive(true);
@@ -169,25 +170,26 @@ public class GameManager : MonoBehaviour
             );
         }
         //StartCoroutine(EnableMovementAfterDelay());
-        StartCoroutine(Wait5Seconds());
     }
-    IEnumerator Wait5Seconds()
+    public IEnumerator Wait1Seconds()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
         Debug.Log("Done after 5 seconds!");
-        LogoCanvasObj.SetActive(false);
+        //LogoCanvasObj.SetActive(false);
         TargetCanvasObj.SetActive(true);
+        audioManager.PlayTargetMusic();
     }
 
     public void ActiveLoop()
     {
         audioManager.PlayClick();
-        LogoCanvasObj.SetActive(false);
+        audioManager.musicSource.Stop();
+        audioManager.PlayTargetLoopMusic();
+        //LogoCanvasObj.SetActive(false);
         TargetCanvasObj.SetActive(false);
         LoopCanvasObj.SetActive(true);
         startUICardLoop = true;
         StartCoroutine(ShowUICardsLoop());
-        StartCoroutine(StopLoopAfterTime(5f));
     }
 
     IEnumerator ShowUICardsLoop()
@@ -270,7 +272,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator StopLoopAfterTime(float time)
+    public IEnumerator StopLoopAfterTime(float time)
     {
         videoPlayer.isLooping = false;
         yield return new WaitForSeconds(time);
@@ -532,9 +534,9 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_2;
         videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_2TargetObjects_1));
-        StartCoroutine(TriggerAtVideoTime(4f, Clip_2TargetObjects_2));
-        StartCoroutine(TriggerAtVideoTime(5f, Clip_2TargetObjects_3));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_2TargetObjects_1,8f));
+        StartCoroutine(TriggerAtVideoTime(17f, Clip_2TargetObjects_2,8f));
+        StartCoroutine(TriggerAtVideoTime(39f, Clip_2TargetObjects_3,8f));
     }
 
     public void SmallMoleculesFN(Button Btn)
@@ -548,8 +550,8 @@ public class GameManager : MonoBehaviour
         videoPlayer.clip = Clip_3;
         videoPlayer.Play();
 
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_3TargetObjects_1));
-        StartCoroutine(TriggerAtVideoTime(4f, Clip_3TargetObjects_2));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_3TargetObjects_1,8f));
+        StartCoroutine(TriggerAtVideoTime(17f, Clip_3TargetObjects_2,8f));
         //StartCoroutine(TriggerAtVideoTime(5f, Clip_3TargetObjects_3));
     }
 
@@ -562,9 +564,11 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_4;
         videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_4TargetObjects_1));
-        StartCoroutine(TriggerAtVideoTime(4f, Clip_4TargetObjects_2));
-        //StartCoroutine(TriggerAtVideoTime(5f, Clip_4TargetObjects_3));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_4TargetObjects_1,6f));
+        StartCoroutine(TriggerAtVideoTime(7f, Clip_4TargetObjects_2,10f));
+        StartCoroutine(TriggerAtVideoTime(17f, Clip_4TargetObjects_3,8f));
+        StartCoroutine(TriggerAtVideoTime(19f, Clip_4TargetObjects_4,17f));
+
     }
 
     public GameObject TargetCanvas;
@@ -574,39 +578,35 @@ public class GameManager : MonoBehaviour
 
     public GameObject Clip_3TargetObjects_1;
     public GameObject Clip_3TargetObjects_2;
-    //public GameObject Clip_3TargetObjects_3;
 
     public GameObject Clip_4TargetObjects_1;
     public GameObject Clip_4TargetObjects_2;
-    //public GameObject Clip_4TargetObjects_3;
+    public GameObject Clip_4TargetObjects_3;
+    public GameObject Clip_4TargetObjects_4;
+
 
     public GameObject Clip_5TargetObjects_1;
-    //public GameObject Clip_5TargetObjects_2;
-    //public GameObject Clip_5TargetObjects_3;
+    public GameObject Clip_5TargetObjects_2;
+    public GameObject Clip_5TargetObjects_3;
+    public GameObject Clip_5TargetObjects_4;
+
 
 
     public GameObject Clip_6TargetObjects_1;
-    //public GameObject Clip_6TargetObjects_2;
-    //public GameObject Clip_6TargetObjects_3;
+    public GameObject Clip_6TargetObjects_2;
 
 
     public GameObject Clip_7TargetObjects_1;
-    //public GameObject Clip_7TargetObjects_2;
-    //public GameObject Clip_7TargetObjects_3;
+    public GameObject Clip_7TargetObjects_2;
+    public GameObject Clip_7TargetObjects_3;
 
 
-    public GameObject Clip_8TargetObjects_1;
-    //public GameObject Clip_8TargetObjects_2;
-    //public GameObject Clip_8TargetObjects_3;
-
-    public GameObject Clip_9TargetObjects_1;
-    //public GameObject Clip_9TargetObjects_2;
-    //public GameObject Clip_9TargetObjects_3;
+    
 
 
 
 
-    IEnumerator TriggerAtVideoTime(double targetTime, GameObject targetObject)
+    IEnumerator TriggerAtVideoTime(double targetTime, GameObject targetObject,float Timer)
     {
         // wait until video actually starts
         yield return new WaitUntil(() => videoPlayer.isPlaying);
@@ -622,7 +622,7 @@ public class GameManager : MonoBehaviour
         TargetCanvas.SetActive(true);
 
         // hide after 2 sec (real time, not video time)
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(Timer);
 
         targetObject.SetActive(false);
         TargetCanvas.SetActive(false);
@@ -644,9 +644,8 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_5;
         videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_5TargetObjects_1));
-        //StartCoroutine(TriggerAtVideoTime(4f, Clip_5TargetObjects_2));
-        //StartCoroutine(TriggerAtVideoTime(5f, Clip_5TargetObjects_3));
+        
+
     }
 
     public void UlcerativeColitisFn()
@@ -661,9 +660,7 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_6;
         videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_6TargetObjects_1));
-        //StartCoroutine(TriggerAtVideoTime(4f, Clip_6TargetObjects_2));
-        //StartCoroutine(TriggerAtVideoTime(5f, Clip_6TargetObjects_3));
+       
     }
 
     public void ContinueBtnFN()
@@ -684,9 +681,10 @@ public class GameManager : MonoBehaviour
         videoPlayer.clip = Clip_7;
         videoPlayer.Play();
 
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_7TargetObjects_1));
-        //StartCoroutine(TriggerAtVideoTime(4f, Clip_7TargetObjects_2));
-        //StartCoroutine(TriggerAtVideoTime(5f, Clip_7TargetObjects_3));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_5TargetObjects_1, 5f));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_5TargetObjects_2, 5f));
+        StartCoroutine(TriggerAtVideoTime(9f, Clip_5TargetObjects_3, 5f));
+        StartCoroutine(TriggerAtVideoTime(19f, Clip_5TargetObjects_4, 5f));
     }
 
     public void SmallMoleculesDoubleFN(Button Btn)
@@ -698,9 +696,8 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_8;
         videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_8TargetObjects_1));
-        //StartCoroutine(TriggerAtVideoTime(4f, Clip_8TargetObjects_2));
-        //StartCoroutine(TriggerAtVideoTime(5f, Clip_8TargetObjects_3));
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_6TargetObjects_1, 5f));
+        StartCoroutine(TriggerAtVideoTime(6f, Clip_6TargetObjects_2, 10f));
     }
 
     public void ContinueDoubleFN(Button Btn)
@@ -712,10 +709,9 @@ public class GameManager : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.clip = Clip_9;
         videoPlayer.Play();
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_7TargetObjects_1, 10f));
+        StartCoroutine(TriggerAtVideoTime(11f, Clip_7TargetObjects_2, 10f));
 
-        StartCoroutine(TriggerAtVideoTime(2f, Clip_9TargetObjects_1));
-        //StartCoroutine(TriggerAtVideoTime(4f, Clip_9TargetObjects_2));
-        //StartCoroutine(TriggerAtVideoTime(5f, Clip_9TargetObjects_3));
     }
 
     public void ContinueDoubleBtnFN()
