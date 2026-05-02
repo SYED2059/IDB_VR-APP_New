@@ -3,23 +3,46 @@ using UnityEngine.UI;
 
 public class LoaderAnimation : MonoBehaviour
 {
-    public Image targetImage;
-    public Sprite[] frames;
-    private float fps = 60f;
+    [Header("UI")]
+    [SerializeField] private Image targetImage;
 
-    private int currentFrame;
-    private float timer;
+    [Header("Frames")]
+    [SerializeField] private Sprite[] frames;
+
+    [Header("Debug (Optional)")]
+    [Range(0f, 1f)]
+    [SerializeField] private float progress = 0f;
+
+    private int lastFrame = -1;
 
     void Update()
     {
-        timer += Time.deltaTime;
+        // Only for testing in Inspector
+        UpdateFrame(progress);
+    }
 
-        if (timer >= 1f / fps)
-        {
-            timer = 0f;
+    /// <summary>
+    /// Call this from your loading logic
+    /// value should be between 0 and 1
+    /// </summary>
+    public void SetProgress(float value)
+    {
+        progress = Mathf.Clamp01(value);
+        UpdateFrame(progress);
+    }
 
-            currentFrame = (currentFrame + 1) % frames.Length;
-            targetImage.sprite = frames[currentFrame];
-        }
+    private void UpdateFrame(float value)
+    {
+        if (frames == null || frames.Length == 0 || targetImage == null)
+            return;
+
+        int frameIndex = Mathf.FloorToInt(value * (frames.Length - 1));
+
+        // Prevent unnecessary sprite updates
+        if (frameIndex == lastFrame)
+            return;
+
+        lastFrame = frameIndex;
+        targetImage.sprite = frames[frameIndex];
     }
 }
