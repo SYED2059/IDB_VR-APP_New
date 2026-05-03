@@ -43,16 +43,39 @@ public class GameManager : MonoBehaviour
     public GameObject PodCanvas;
     public GameObject ExitButton;
 
+
     [Header("UI Card Animation")]
-    public GameObject[] uiCards;
-    public bool startUICardLoop = false;
-    public float cardStartDistance = 50f;
-    public float cardCenterDistance = 4f;
-    public float cardEndDistance = -50f;
-    public float enterDuration = 3f;
-    public float stayDuration = 0.5f;
-    public float exitDuration = 1f;
-    public float delayBetweenCards = 0.1f;
+    //public GameObject[] uiCards;
+    //public bool startUICardLoop = false;
+    //public float cardStartDistance = 50f;
+    //public float cardCenterDistance = 4f;
+    //public float cardEndDistance = -50f;
+    //public float enterDuration = 3f;
+    //public float stayDuration = 0.5f;
+    //public float exitDuration = 1f;
+    //public float delayBetweenCards = 0.1f;
+
+    [Header("UI Cards")]
+    [SerializeField] private GameObject[] uiCards;
+
+    [Header("Loop")]
+    [SerializeField] private bool startUICardLoop = true;
+
+    [Header("Depth (Z)")]
+    [SerializeField] private float startZ = 500f;
+    [SerializeField] private float centerZ = 0f;
+    [SerializeField] private float endZ = -300f;
+
+    [Header("Timing")]
+    [SerializeField] private float enterDuration = 1f;
+    [SerializeField] private float stayDuration = 2f;
+    [SerializeField] private float exitDuration = 1f;
+    [SerializeField] private float delayBetween = 0.5f;
+
+    [Header("Spacing Control")]
+    [SerializeField] private float spacingMultiplier = 0.6f; // 👈 tweak 0.4–0.8
+    [SerializeField] private float exitMultiplier = 1.5f;
+
 
     [Header("VideoPlayer")]
     public VideoPlayer videoPlayer;
@@ -120,27 +143,51 @@ public class GameManager : MonoBehaviour
 
     public void OnEnterClicked()
     {
+        //audioManager.PlayClick();
+        //audioManager.PlayEnterMusic();
+        //Debug.Log("Enter Button Clicked");
+        //if (SpaceshipObj && SpaceshipEntryPoint)
+        //{
+        //    SpaceshipObj.SetPositionAndRotation(
+        //        SpaceshipEntryPoint.position,
+        //        SpaceshipEntryPoint.rotation
+        //    );
+        //}
+
+        //if (PlayerCameraObj && PlayerCameraEntryPoint)
+        //{
+        //    PlayerCameraObj.SetPositionAndRotation(
+        //        PlayerCameraEntryPoint.position,
+        //        PlayerCameraEntryPoint.rotation
+        //    );
+        //}
+        //StartCoroutine(EnableMovementAfterDelay());
+        //EnterButton.SetActive(false);
+        //PodCanvas.SetActive(false);
+
         audioManager.PlayClick();
-        audioManager.PlayEnterMusic();
-        Debug.Log("Enter Button Clicked");
+        audioManager.PlayLogoMusic();
+        Debug.Log("Begin Button Clicked");
+        locomotor.SetActive(true);
+        VfxObj.SetActive(true);
+        Vfx.Reinit();
+        Vfx.SendEvent("OnPlay");
         if (SpaceshipObj && SpaceshipEntryPoint)
         {
             SpaceshipObj.SetPositionAndRotation(
-                SpaceshipEntryPoint.position,
-                SpaceshipEntryPoint.rotation
+                SpaceshipBeginPoint.position,
+                SpaceshipBeginPoint.rotation
             );
         }
 
         if (PlayerCameraObj && PlayerCameraEntryPoint)
         {
             PlayerCameraObj.SetPositionAndRotation(
-                PlayerCameraEntryPoint.position,
-                PlayerCameraEntryPoint.rotation
+                PlayerCameraBeginPoint.position,
+                PlayerCameraBeginPoint.rotation
             );
         }
-        StartCoroutine(EnableMovementAfterDelay());
-        EnterButton.SetActive(false);
-        PodCanvas.SetActive(false);
+        //StartCoroutine(EnableMovementAfterDelay());
     }
 
     IEnumerator EnableMovementAfterDelay()
@@ -156,7 +203,7 @@ public class GameManager : MonoBehaviour
     public void OnBeginClicked()
     {
         audioManager.PlayClick();
-        audioManager.PlayLogoMusic();
+        //audioManager.PlayLogoMusic();
         Debug.Log("Begin Button Clicked");
         locomotor.SetActive(true);
         VfxObj.SetActive(true);
@@ -200,86 +247,236 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ShowUICardsLoop());
     }
 
+    //IEnumerator ShowUICardsLoop()
+    //{
+    //    float sideOffset = 80f;
+
+    //    while (startUICardLoop)
+    //    {
+    //        for (int i = 0; i < uiCards.Length; i++)
+    //        {
+    //            GameObject currentCard = uiCards[i];
+
+    //            if (currentCard == null)
+    //                continue;
+
+    //            currentCard.SetActive(true);
+
+    //            CanvasGroup cg = currentCard.GetComponent<CanvasGroup>();
+    //            if (cg == null)
+    //                cg = currentCard.AddComponent<CanvasGroup>();
+
+    //            cg.alpha = 0f;
+
+    //            bool goRight = (i % 2 == 0);
+
+    //            Vector3 startLocalPos = new Vector3(0f, 0f, cardStartDistance);
+    //            Vector3 centerLocalPos = new Vector3(0f, 0f, cardCenterDistance);
+
+    //            Vector3 endLocalPos = goRight
+    //                ? new Vector3(sideOffset, 0f, cardEndDistance)
+    //                : new Vector3(-sideOffset, 0f, cardEndDistance);
+
+    //            currentCard.transform.localPosition = startLocalPos;
+
+    //            float enterTimer = 0f;
+    //            while (enterTimer < enterDuration)
+    //            {
+    //                enterTimer += Time.deltaTime;
+    //                float t = enterTimer / enterDuration;
+
+    //                currentCard.transform.localPosition = Vector3.Lerp(
+    //                    startLocalPos,
+    //                    centerLocalPos,
+    //                    t
+    //                );
+
+    //                cg.alpha = Mathf.Lerp(0f, 1f, t);
+
+    //                yield return null;
+    //            }
+
+    //            currentCard.transform.localPosition = centerLocalPos;
+    //            cg.alpha = 1f;
+
+    //            yield return new WaitForSeconds(stayDuration);
+
+    //            float exitTimer = 0f;
+    //            while (exitTimer < exitDuration)
+    //            {
+    //                exitTimer += Time.deltaTime;
+    //                float t = exitTimer / exitDuration;
+
+    //                float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
+    //                currentCard.transform.localPosition = Vector3.Lerp(
+    //                    centerLocalPos,
+    //                    endLocalPos,
+    //                    smoothT
+    //                );
+
+    //                cg.alpha = Mathf.Lerp(1f, 0f, t);
+
+    //                yield return null;
+    //            }
+
+    //            currentCard.SetActive(false);
+
+    //            yield return new WaitForSeconds(delayBetweenCards);
+    //        }
+    //    }
+    //}
     IEnumerator ShowUICardsLoop()
     {
-        float sideOffset = 80f;
-
         while (startUICardLoop)
         {
-            for (int i = 0; i < uiCards.Length; i++)
+            int i = 0;
+
+            while (i < uiCards.Length)
             {
-                GameObject currentCard = uiCards[i];
-
-                if (currentCard == null)
-                    continue;
-
-                currentCard.SetActive(true);
-
-                CanvasGroup cg = currentCard.GetComponent<CanvasGroup>();
-                if (cg == null)
-                    cg = currentCard.AddComponent<CanvasGroup>();
-
-                cg.alpha = 0f;
-
-                bool goRight = (i % 2 == 0);
-
-                Vector3 startLocalPos = new Vector3(0f, 0f, cardStartDistance);
-                Vector3 centerLocalPos = new Vector3(0f, 0f, cardCenterDistance);
-
-                Vector3 endLocalPos = goRight
-                    ? new Vector3(sideOffset, 0f, cardEndDistance)
-                    : new Vector3(-sideOffset, 0f, cardEndDistance);
-
-                currentCard.transform.localPosition = startLocalPos;
-
-                float enterTimer = 0f;
-                while (enterTimer < enterDuration)
+                // 🔹 FIRST CARD (SINGLE)
+                if (i == 0)
                 {
-                    enterTimer += Time.deltaTime;
-                    float t = enterTimer / enterDuration;
+                    yield return AnimateSingle(uiCards[i], i);
+                    i++;
+                }
+                // 🔹 PAIRS
+                else
+                {
+                    GameObject left = uiCards[i];
+                    GameObject right = (i + 1 < uiCards.Length) ? uiCards[i + 1] : null;
 
-                    currentCard.transform.localPosition = Vector3.Lerp(
-                        startLocalPos,
-                        centerLocalPos,
-                        t
-                    );
+                    if (left != null && right != null)
+                        yield return AnimatePair(left, right);
 
-                    cg.alpha = Mathf.Lerp(0f, 1f, t);
-
-                    yield return null;
+                    i += 2;
                 }
 
-                currentCard.transform.localPosition = centerLocalPos;
-                cg.alpha = 1f;
-
-                yield return new WaitForSeconds(stayDuration);
-
-                float exitTimer = 0f;
-                while (exitTimer < exitDuration)
-                {
-                    exitTimer += Time.deltaTime;
-                    float t = exitTimer / exitDuration;
-
-                    float smoothT = Mathf.SmoothStep(0f, 1f, t);
-
-                    currentCard.transform.localPosition = Vector3.Lerp(
-                        centerLocalPos,
-                        endLocalPos,
-                        smoothT
-                    );
-
-                    cg.alpha = Mathf.Lerp(1f, 0f, t);
-
-                    yield return null;
-                }
-
-                currentCard.SetActive(false);
-
-                yield return new WaitForSeconds(delayBetweenCards);
+                yield return new WaitForSeconds(delayBetween);
             }
+            startUICardLoop = false;
         }
     }
 
+    // ================= SINGLE =================
+    IEnumerator AnimateSingle(GameObject card, int index)
+    {
+        if (card == null) yield break;
+
+        Setup(card, out CanvasGroup cg);
+        RectTransform rt = card.GetComponent<RectTransform>();
+
+        Vector3 start = new Vector3(0, 0, startZ);
+        Vector3 center = new Vector3(0, 0, centerZ);
+
+        bool goRight = (index % 2 == 0);
+        Vector3 end = goRight
+            ? new Vector3(300f, 0, endZ)
+            : new Vector3(-300f, 0, endZ);
+
+        rt.anchoredPosition3D = start;
+
+        yield return Move(rt, cg, start, center, enterDuration, false);
+        yield return new WaitForSeconds(stayDuration);
+        yield return Move(rt, cg, center, end, exitDuration, true);
+
+        card.SetActive(false);
+    }
+
+    // ================= PAIR =================
+    IEnumerator AnimatePair(GameObject leftCard, GameObject rightCard)
+    {
+        Setup(leftCard, out CanvasGroup cgL);
+        Setup(rightCard, out CanvasGroup cgR);
+
+        RectTransform rtL = leftCard.GetComponent<RectTransform>();
+        RectTransform rtR = rightCard.GetComponent<RectTransform>();
+
+        // 🔥 Dynamic spacing based on card width
+        float cardWidth = rtL.rect.width;
+
+        float spacing = cardWidth * spacingMultiplier;
+        float exit = cardWidth * exitMultiplier;
+
+        Vector3 leftStart = new Vector3(-spacing, 0, startZ);
+        Vector3 rightStart = new Vector3(spacing, 0, startZ);
+
+        Vector3 leftCenter = new Vector3(-spacing, 0, centerZ);
+        Vector3 rightCenter = new Vector3(spacing, 0, centerZ);
+
+        Vector3 leftEnd = new Vector3(-exit, 0, endZ);
+        Vector3 rightEnd = new Vector3(exit, 0, endZ);
+
+        rtL.anchoredPosition3D = leftStart;
+        rtR.anchoredPosition3D = rightStart;
+
+        // ENTER
+        float t = 0;
+        while (t < enterDuration)
+        {
+            t += Time.deltaTime;
+            float lerp = t / enterDuration;
+
+            rtL.anchoredPosition3D = Vector3.Lerp(leftStart, leftCenter, lerp);
+            rtR.anchoredPosition3D = Vector3.Lerp(rightStart, rightCenter, lerp);
+
+            cgL.alpha = Mathf.Lerp(0, 1, lerp);
+            cgR.alpha = Mathf.Lerp(0, 1, lerp);
+
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(stayDuration);
+
+        // EXIT
+        t = 0;
+        while (t < exitDuration)
+        {
+            t += Time.deltaTime;
+            float lerp = t / exitDuration;
+            float smooth = Mathf.SmoothStep(0, 1, lerp);
+
+            rtL.anchoredPosition3D = Vector3.Lerp(leftCenter, leftEnd, smooth);
+            rtR.anchoredPosition3D = Vector3.Lerp(rightCenter, rightEnd, smooth);
+
+            cgL.alpha = Mathf.Lerp(1, 0, lerp);
+            cgR.alpha = Mathf.Lerp(1, 0, lerp);
+
+            yield return null;
+        }
+
+        leftCard.SetActive(false);
+        rightCard.SetActive(false);
+    }
+
+    // ================= COMMON =================
+    IEnumerator Move(RectTransform rt, CanvasGroup cg, Vector3 from, Vector3 to, float duration, bool fadeOut)
+    {
+        float t = 0;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float lerp = t / duration;
+            float smooth = Mathf.SmoothStep(0, 1, lerp);
+
+            rt.anchoredPosition3D = Vector3.Lerp(from, to, smooth);
+            cg.alpha = fadeOut ? Mathf.Lerp(1, 0, lerp) : Mathf.Lerp(0, 1, lerp);
+
+            yield return null;
+        }
+    }
+
+    void Setup(GameObject card, out CanvasGroup cg)
+    {
+        card.SetActive(true);
+
+        cg = card.GetComponent<CanvasGroup>();
+        if (cg == null)
+            cg = card.AddComponent<CanvasGroup>();
+
+        cg.alpha = 0;
+    }
 
 
 
@@ -402,7 +599,7 @@ public class GameManager : MonoBehaviour
         }
         if (vp.clip == Clip_5)
         {
-            OnClip5Finished();
+            StartCoroutine(OnClip5Finished());
         }
         if (vp.clip == Clip_6)
         {
@@ -484,10 +681,11 @@ public class GameManager : MonoBehaviour
         DoublePanel.SetActive(true);
     }
 
-    void OnClip5Finished()
+    IEnumerator OnClip5Finished()
     {
         videoPlayer.clip = Clip_11;
         videoPlayer.Play();
+        yield return new WaitForSeconds(2f);
         DoubleSubPanel.SetActive(true);
     }
 
@@ -529,6 +727,13 @@ public class GameManager : MonoBehaviour
     }
 
     void OnClip9Finished()
+    {
+        audioManager.Card1Music();
+        
+
+    }
+
+    public void NewExitFN()
     {
         ContinueDoubleBtn.SetActive(false);
         DoubleSubPanel.SetActive(false);
@@ -633,8 +838,13 @@ public class GameManager : MonoBehaviour
 
 
     public GameObject Clip_7TargetObjects_1;
-    public GameObject Clip_7TargetObjects_2;
-    public GameObject Clip_7TargetObjects_3;
+    public GameObject Clip_7TargetObjects_Card1;
+    public GameObject Clip_7TargetObjects_Card2;
+    public GameObject Clip_7TargetObjects_Card3;
+    public GameObject Clip_7TargetObjects_Card4;
+    public GameObject Clip_7TargetObjects_Card5;
+    public GameObject Clip_7TargetObjects_Card6;
+
 
 
 
@@ -744,10 +954,8 @@ public class GameManager : MonoBehaviour
         DoubleSubPanel.SetActive(false);
         videoPlayer.Stop();
         videoPlayer.clip = Clip_9;
-        videoPlayer.Play();
-        StartCoroutine(TriggerAtVideoTime(1f, Clip_7TargetObjects_1, 10f));
-        StartCoroutine(TriggerAtVideoTime(11f, Clip_7TargetObjects_2, 10f));
-
+        videoPlayer.Play();  
+        StartCoroutine(TriggerAtVideoTime(1f, Clip_7TargetObjects_1,100f));
     }
 
     public void ContinueDoubleBtnFN()
